@@ -25,7 +25,11 @@ namespace BS.View
 
         private void LoadData()
         {
-
+            string qry =
+                @"SELECT 0 '구분', USER_ID, USER_ACCOUNT, USER_NAME,
+                  USER_PHONE, USER_EMAIL FROM TABLE_USER
+                  WHERE USER_NAME LIKE '%" + txtSearch.Text + "%'";
+            //MainClass.
         }
 
         public override void btnViewAdd_Click(object sender, EventArgs e)
@@ -39,8 +43,11 @@ namespace BS.View
             txtSearchFunc();
         }
 
-        public override void BSdgv_CellContentClick(object sender, DataGridViewCellEventArgs e)
+
+        public override void BSdgv_DoubleClick(object sender, EventArgs e)
         {
+            int id = Convert.ToInt32(BSdgv.CurrentRow.Cells[1].Value);
+            new frmUserAdd() { editID = id }.Show();
             LoadData();
         }
 

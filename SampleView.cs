@@ -28,7 +28,7 @@ namespace BS
 
         }
 
-        public virtual void BSdgv_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        public virtual void BSdgv_DoubleClick(object sender, EventArgs e)
         {
 
         }

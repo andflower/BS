@@ -17,6 +17,11 @@ namespace BS
         public Sample()
         {
             InitializeComponent();
+            MainClass.MsgCaption = "결제 시스템";
+            MainClass.conString =
+                @"Server=GOMDDANJI\\SQLEXPRESS01;
+                  Database=BS;
+                  Trusted_Connection=True;";
         }
     }
 }

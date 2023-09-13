@@ -16,5 +16,13 @@ namespace BS.Model
         {
             InitializeComponent();
         }
+
+        private void frmUserAdd_Load(object sender, EventArgs e)
+        {
+            if (editID > 0)
+            {
+                //MainClass.AutoLoadDataFrom(this, )
+            }
+        }
     }
 }
