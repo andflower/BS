@@ -211,10 +211,10 @@
             this.guna2CircleProgressBar1.TabIndex = 5;
             this.guna2CircleProgressBar1.Value = 75;
             // 
-            // FrmLogin
+            // frmLogin
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(28)))), ((int)(((byte)(36)))));
             this.ClientSize = new System.Drawing.Size(300, 536);
             this.Controls.Add(this.btnExit);
@@ -226,7 +226,7 @@
             this.Controls.Add(this.txtUser);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.guna2CircleProgressBar1);
-            this.Name = "FrmLogin";
+            this.Name = "frmLogin";
             this.Text = "FrmLogin";
             this.Load += new System.EventHandler(this.FrmLogin_Load);
             this.ResumeLayout(false);

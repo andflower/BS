@@ -30,10 +30,14 @@
         {
             this.SuspendLayout();
             // 
+            // lblContext
+            // 
+            this.lblContext.Text = "사용자 목록";
+            // 
             // frmUser
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(1720, 1020);
             this.Name = "frmUser";
             this.Text = "frmUser";

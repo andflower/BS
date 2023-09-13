@@ -32,5 +32,10 @@ namespace BS
         {
 
         }
+
+        public virtual void txtSearch_IconRightClick(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -117,12 +117,13 @@
             this.txtSearch.SelectedText = "";
             this.txtSearch.ShadowDecoration.BorderRadius = 26;
             this.txtSearch.ShadowDecoration.Color = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(117)))), ((int)(((byte)(117)))));
-            this.txtSearch.ShadowDecoration.Depth = 20;
+            this.txtSearch.ShadowDecoration.Depth = 15;
             this.txtSearch.ShadowDecoration.Enabled = true;
             this.txtSearch.ShadowDecoration.Shadow = new System.Windows.Forms.Padding(8);
             this.txtSearch.Size = new System.Drawing.Size(330, 50);
             this.txtSearch.TabIndex = 2;
             this.txtSearch.TextOffset = new System.Drawing.Point(10, 0);
+            this.txtSearch.IconRightClick += new System.EventHandler(this.txtSearch_IconRightClick);
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
             // lblContext
@@ -195,8 +196,8 @@
             // 
             // SampleView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(1720, 1020);
             this.Controls.Add(this.BSdgv);
             this.Controls.Add(this.paTop);

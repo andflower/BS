@@ -72,21 +72,23 @@ namespace BS
             {
                 SqlCommand cmd = new SqlCommand(qry, con);
 
-                //
-                // 요약:
-                //     System.Data.SqlClient.SqlParameterCollection 끝에 값을 추가합니다.
-                //
-                // 매개 변수:
-                //   parameterName:
-                //     매개 변수의 이름입니다.
-                //
-                //   value:
-                //     추가할 값입니다. null 값을 나타내기 위해 null 대신 System.DBNull.Value를 사용합니다.
-                //
-                // 반환 값:
-                //     System.Data.SqlClient.SqlParameter 개체입니다.
+                
                 foreach (DictionaryEntry deItem in ht)
                 {
+                    //
+                    // 요약:
+                    //     System.Data.SqlClient.SqlParameterCollection 끝에 값을 추가합니다.
+                    //
+                    // 매개 변수:
+                    //   parameterName:
+                    //     매개 변수의 이름입니다.
+                    //
+                    //   value:
+                    //     추가할 값입니다. null 값을 나타내기 위해 null 대신 System.DBNull.Value를 사용합니다.
+                    //
+                    // 반환 값:
+                    //     System.Data.SqlClient.SqlParameter 개체입니다.
+                    // public SqlParameter AddWithValue(string parameterName, object value)
                     cmd.Parameters.AddWithValue(deItem.Key.ToString(), deItem.Value);
                 }
 
@@ -120,7 +122,7 @@ namespace BS
             int count = 0;
             Guna.UI2.WinForms.Guna2DataGridView dgv = (Guna.UI2.WinForms.Guna2DataGridView)sender;
 
-            // dgvRow는 첫번째 열이 무조건 인덱스라 가정시에 적용 가능함
+            // dgvRow는 첫번째 열이 무조건 인덱스로 가정시에 적용 가능함
             foreach (DataGridViewRow dgvRow in dgv.Rows)
             {
                 count++;

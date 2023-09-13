@@ -36,10 +36,20 @@ namespace BS.View
 
         public override void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            LoadData();
+            txtSearchFunc();
         }
 
         public override void BSdgv_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            LoadData();
+        }
+
+        public override void txtSearch_IconRightClick(object sender, EventArgs e)
+        {
+            txtSearchFunc();
+        }
+
+        private void txtSearchFunc()
         {
             LoadData();
         }
