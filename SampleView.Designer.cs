@@ -29,18 +29,13 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SampleView));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.paTop = new Guna.UI2.WinForms.Guna2Panel();
             this.btnViewAdd = new Guna.UI2.WinForms.Guna2PictureBox();
             this.lblSearch = new System.Windows.Forms.Label();
             this.txtSearch = new Guna.UI2.WinForms.Guna2TextBox();
             this.lblContext = new System.Windows.Forms.Label();
-            this.BSdgv = new Guna.UI2.WinForms.Guna2DataGridView();
             this.paTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnViewAdd)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.BSdgv)).BeginInit();
             this.SuspendLayout();
             // 
             // paTop
@@ -125,6 +120,7 @@
             this.txtSearch.TextOffset = new System.Drawing.Point(10, 0);
             this.txtSearch.IconRightClick += new System.EventHandler(this.txtSearch_IconRightClick);
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            this.txtSearch.MouseClick += new System.Windows.Forms.MouseEventHandler(this.txtSearch_MouseClick);
             // 
             // lblContext
             // 
@@ -138,74 +134,16 @@
             this.lblContext.Text = "Sample View 머리말";
             this.lblContext.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // BSdgv
-            // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(28)))), ((int)(((byte)(36)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            this.BSdgv.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.BSdgv.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(28)))), ((int)(((byte)(36)))));
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(28)))), ((int)(((byte)(36)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DimGray;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.BSdgv.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.BSdgv.ColumnHeadersHeight = 4;
-            this.BSdgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(28)))), ((int)(((byte)(36)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(43)))), ((int)(((byte)(54)))));
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.BSdgv.DefaultCellStyle = dataGridViewCellStyle3;
-            this.BSdgv.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(43)))), ((int)(((byte)(54)))));
-            this.BSdgv.Location = new System.Drawing.Point(39, 250);
-            this.BSdgv.Margin = new System.Windows.Forms.Padding(30, 30, 30, 0);
-            this.BSdgv.Name = "BSdgv";
-            this.BSdgv.RowHeadersVisible = false;
-            this.BSdgv.RowTemplate.Height = 23;
-            this.BSdgv.Size = new System.Drawing.Size(1100, 500);
-            this.BSdgv.TabIndex = 1;
-            this.BSdgv.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.White;
-            this.BSdgv.ThemeStyle.AlternatingRowsStyle.Font = null;
-            this.BSdgv.ThemeStyle.AlternatingRowsStyle.ForeColor = System.Drawing.Color.Empty;
-            this.BSdgv.ThemeStyle.AlternatingRowsStyle.SelectionBackColor = System.Drawing.Color.Empty;
-            this.BSdgv.ThemeStyle.AlternatingRowsStyle.SelectionForeColor = System.Drawing.Color.Empty;
-            this.BSdgv.ThemeStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(28)))), ((int)(((byte)(36)))));
-            this.BSdgv.ThemeStyle.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(43)))), ((int)(((byte)(54)))));
-            this.BSdgv.ThemeStyle.HeaderStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(88)))), ((int)(((byte)(255)))));
-            this.BSdgv.ThemeStyle.HeaderStyle.BorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.BSdgv.ThemeStyle.HeaderStyle.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BSdgv.ThemeStyle.HeaderStyle.ForeColor = System.Drawing.Color.White;
-            this.BSdgv.ThemeStyle.HeaderStyle.HeaightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            this.BSdgv.ThemeStyle.HeaderStyle.Height = 4;
-            this.BSdgv.ThemeStyle.ReadOnly = false;
-            this.BSdgv.ThemeStyle.RowsStyle.BackColor = System.Drawing.Color.White;
-            this.BSdgv.ThemeStyle.RowsStyle.BorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            this.BSdgv.ThemeStyle.RowsStyle.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BSdgv.ThemeStyle.RowsStyle.ForeColor = System.Drawing.Color.White;
-            this.BSdgv.ThemeStyle.RowsStyle.Height = 23;
-            this.BSdgv.ThemeStyle.RowsStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
-            this.BSdgv.ThemeStyle.RowsStyle.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
-            this.BSdgv.DoubleClick += new System.EventHandler(this.BSdgv_DoubleClick);
-            // 
             // SampleView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(1720, 1020);
-            this.Controls.Add(this.BSdgv);
             this.Controls.Add(this.paTop);
             this.Name = "SampleView";
             this.Text = "SampleView";
             this.paTop.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.btnViewAdd)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.BSdgv)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -216,7 +154,6 @@
         public System.Windows.Forms.Label lblContext;
         public Guna.UI2.WinForms.Guna2TextBox txtSearch;
         public System.Windows.Forms.Label lblSearch;
-        public Guna.UI2.WinForms.Guna2DataGridView BSdgv;
         public Guna.UI2.WinForms.Guna2PictureBox btnViewAdd;
     }
 }

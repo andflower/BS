@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BS.View;
 using BS.Model;
+using Guna.UI2.WinForms;
+using System.Security.Principal;
+using System.Threading;
 
 namespace BS
 {
@@ -40,7 +43,6 @@ namespace BS
             // BlurBackground 적용 3) 멤버 변수에 현재 form할당
             _obj = this;
             btnMax.PerformClick();
-            //paAdd.BringToFront();
             paAdd.Visible = false;
         }
 
@@ -68,14 +70,10 @@ namespace BS
             F.Show();
         }
 
-        private void guna2Button2_Click(object sender, EventArgs e)
-        {
-            
-        }
-
         private void btnUser_Click(object sender, EventArgs e)
         {
-            AddControls(new frmUser());
+            var View_FrmUser = new frmUser();
+            AddControls(View_FrmUser);
         }
     }
 }

@@ -138,7 +138,7 @@
             this.btnReports.Margin = new System.Windows.Forms.Padding(25, 5, 25, 5);
             this.btnReports.Name = "btnReports";
             this.btnReports.Size = new System.Drawing.Size(150, 50);
-            this.btnReports.TabIndex = 11;
+            this.btnReports.TabIndex = 10;
             this.btnReports.Text = "레포트";
             this.btnReports.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btnReports.TextOffset = new System.Drawing.Point(10, 0);
@@ -167,7 +167,7 @@
             this.btnReceipt.Margin = new System.Windows.Forms.Padding(25, 10, 25, 10);
             this.btnReceipt.Name = "btnReceipt";
             this.btnReceipt.Size = new System.Drawing.Size(150, 50);
-            this.btnReceipt.TabIndex = 10;
+            this.btnReceipt.TabIndex = 9;
             this.btnReceipt.Text = "영수증";
             this.btnReceipt.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btnReceipt.TextOffset = new System.Drawing.Point(10, 0);
@@ -196,7 +196,7 @@
             this.btnPayment.Margin = new System.Windows.Forms.Padding(25, 5, 25, 5);
             this.btnPayment.Name = "btnPayment";
             this.btnPayment.Size = new System.Drawing.Size(150, 50);
-            this.btnPayment.TabIndex = 9;
+            this.btnPayment.TabIndex = 8;
             this.btnPayment.Text = "결제";
             this.btnPayment.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btnPayment.TextOffset = new System.Drawing.Point(10, 0);
@@ -225,7 +225,7 @@
             this.btnPurchase.Margin = new System.Windows.Forms.Padding(25, 10, 25, 10);
             this.btnPurchase.Name = "btnPurchase";
             this.btnPurchase.Size = new System.Drawing.Size(150, 50);
-            this.btnPurchase.TabIndex = 8;
+            this.btnPurchase.TabIndex = 7;
             this.btnPurchase.Text = "구매";
             this.btnPurchase.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btnPurchase.TextOffset = new System.Drawing.Point(10, 0);
@@ -254,7 +254,7 @@
             this.btnSale.Margin = new System.Windows.Forms.Padding(25, 5, 25, 5);
             this.btnSale.Name = "btnSale";
             this.btnSale.Size = new System.Drawing.Size(150, 50);
-            this.btnSale.TabIndex = 7;
+            this.btnSale.TabIndex = 6;
             this.btnSale.Text = "판매";
             this.btnSale.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btnSale.TextOffset = new System.Drawing.Point(10, 0);
@@ -283,7 +283,7 @@
             this.btnUser.Margin = new System.Windows.Forms.Padding(25, 10, 25, 10);
             this.btnUser.Name = "btnUser";
             this.btnUser.Size = new System.Drawing.Size(150, 50);
-            this.btnUser.TabIndex = 6;
+            this.btnUser.TabIndex = 5;
             this.btnUser.Text = "사용자";
             this.btnUser.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btnUser.TextOffset = new System.Drawing.Point(10, 0);
@@ -313,7 +313,7 @@
             this.btnSupplier.Margin = new System.Windows.Forms.Padding(25, 5, 25, 5);
             this.btnSupplier.Name = "btnSupplier";
             this.btnSupplier.Size = new System.Drawing.Size(150, 50);
-            this.btnSupplier.TabIndex = 5;
+            this.btnSupplier.TabIndex = 4;
             this.btnSupplier.Text = "공급자";
             this.btnSupplier.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btnSupplier.TextOffset = new System.Drawing.Point(10, 0);
@@ -342,7 +342,7 @@
             this.btnCustomer.Margin = new System.Windows.Forms.Padding(25, 10, 25, 10);
             this.btnCustomer.Name = "btnCustomer";
             this.btnCustomer.Size = new System.Drawing.Size(150, 50);
-            this.btnCustomer.TabIndex = 4;
+            this.btnCustomer.TabIndex = 3;
             this.btnCustomer.Text = "고객";
             this.btnCustomer.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btnCustomer.TextOffset = new System.Drawing.Point(10, 0);
@@ -371,7 +371,7 @@
             this.btnProduct.Margin = new System.Windows.Forms.Padding(25, 5, 25, 5);
             this.btnProduct.Name = "btnProduct";
             this.btnProduct.Size = new System.Drawing.Size(150, 50);
-            this.btnProduct.TabIndex = 3;
+            this.btnProduct.TabIndex = 2;
             this.btnProduct.Text = "상품";
             this.btnProduct.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btnProduct.TextOffset = new System.Drawing.Point(10, 0);
@@ -400,7 +400,7 @@
             this.btnDashboard.Margin = new System.Windows.Forms.Padding(25, 10, 25, 10);
             this.btnDashboard.Name = "btnDashboard";
             this.btnDashboard.Size = new System.Drawing.Size(150, 50);
-            this.btnDashboard.TabIndex = 2;
+            this.btnDashboard.TabIndex = 1;
             this.btnDashboard.Text = "대쉬보드";
             this.btnDashboard.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btnDashboard.TextOffset = new System.Drawing.Point(10, 0);
@@ -428,7 +428,7 @@
             this.btnAdd.Margin = new System.Windows.Forms.Padding(25, 3, 25, 5);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(150, 50);
-            this.btnAdd.TabIndex = 1;
+            this.btnAdd.TabIndex = 0;
             this.btnAdd.Text = "삽입";
             this.btnAdd.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btnAdd.TextOffset = new System.Drawing.Point(17, 0);
@@ -443,7 +443,7 @@
             this.lblContext.Margin = new System.Windows.Forms.Padding(10, 10, 10, 5);
             this.lblContext.Name = "lblContext";
             this.lblContext.Size = new System.Drawing.Size(180, 48);
-            this.lblContext.TabIndex = 0;
+            this.lblContext.TabIndex = 11;
             this.lblContext.Text = "결제 시스템";
             this.lblContext.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -458,7 +458,7 @@
             this.paTop.Location = new System.Drawing.Point(200, 0);
             this.paTop.Name = "paTop";
             this.paTop.Size = new System.Drawing.Size(1720, 60);
-            this.paTop.TabIndex = 0;
+            this.paTop.TabIndex = 1;
             // 
             // btnMin
             // 
@@ -502,7 +502,7 @@
             this.paMain.Location = new System.Drawing.Point(200, 60);
             this.paMain.Name = "paMain";
             this.paMain.Size = new System.Drawing.Size(1720, 1020);
-            this.paMain.TabIndex = 1;
+            this.paMain.TabIndex = 2;
             // 
             // paAdd
             // 
@@ -518,7 +518,7 @@
             this.paAdd.Location = new System.Drawing.Point(74, 227);
             this.paAdd.Name = "paAdd";
             this.paAdd.Size = new System.Drawing.Size(330, 250);
-            this.paAdd.TabIndex = 10;
+            this.paAdd.TabIndex = 3;
             // 
             // btnAddReceipt
             // 
@@ -543,7 +543,7 @@
             this.btnAddReceipt.Margin = new System.Windows.Forms.Padding(5, 5, 10, 5);
             this.btnAddReceipt.Name = "btnAddReceipt";
             this.btnAddReceipt.Size = new System.Drawing.Size(150, 50);
-            this.btnAddReceipt.TabIndex = 9;
+            this.btnAddReceipt.TabIndex = 7;
             this.btnAddReceipt.Text = "영수증";
             this.btnAddReceipt.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btnAddReceipt.TextOffset = new System.Drawing.Point(17, 0);
@@ -571,7 +571,7 @@
             this.btnAddPayment.Margin = new System.Windows.Forms.Padding(10, 5, 5, 5);
             this.btnAddPayment.Name = "btnAddPayment";
             this.btnAddPayment.Size = new System.Drawing.Size(150, 50);
-            this.btnAddPayment.TabIndex = 8;
+            this.btnAddPayment.TabIndex = 3;
             this.btnAddPayment.Text = "결제";
             this.btnAddPayment.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btnAddPayment.TextOffset = new System.Drawing.Point(17, 0);
@@ -599,7 +599,7 @@
             this.btnAddPurchase.Margin = new System.Windows.Forms.Padding(5, 5, 10, 5);
             this.btnAddPurchase.Name = "btnAddPurchase";
             this.btnAddPurchase.Size = new System.Drawing.Size(150, 50);
-            this.btnAddPurchase.TabIndex = 7;
+            this.btnAddPurchase.TabIndex = 6;
             this.btnAddPurchase.Text = "구매";
             this.btnAddPurchase.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btnAddPurchase.TextOffset = new System.Drawing.Point(17, 0);
@@ -627,7 +627,7 @@
             this.btnAddSale.Margin = new System.Windows.Forms.Padding(10, 5, 5, 5);
             this.btnAddSale.Name = "btnAddSale";
             this.btnAddSale.Size = new System.Drawing.Size(150, 50);
-            this.btnAddSale.TabIndex = 6;
+            this.btnAddSale.TabIndex = 2;
             this.btnAddSale.Text = "판매";
             this.btnAddSale.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btnAddSale.TextOffset = new System.Drawing.Point(17, 0);
@@ -683,7 +683,7 @@
             this.btnAddSupplier.Margin = new System.Windows.Forms.Padding(10, 5, 5, 5);
             this.btnAddSupplier.Name = "btnAddSupplier";
             this.btnAddSupplier.Size = new System.Drawing.Size(150, 50);
-            this.btnAddSupplier.TabIndex = 4;
+            this.btnAddSupplier.TabIndex = 1;
             this.btnAddSupplier.Text = "공급자";
             this.btnAddSupplier.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btnAddSupplier.TextOffset = new System.Drawing.Point(17, 0);
@@ -711,7 +711,7 @@
             this.btnAddCustomer.Margin = new System.Windows.Forms.Padding(5, 10, 10, 5);
             this.btnAddCustomer.Name = "btnAddCustomer";
             this.btnAddCustomer.Size = new System.Drawing.Size(150, 50);
-            this.btnAddCustomer.TabIndex = 3;
+            this.btnAddCustomer.TabIndex = 4;
             this.btnAddCustomer.Text = "고객";
             this.btnAddCustomer.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btnAddCustomer.TextOffset = new System.Drawing.Point(17, 0);
@@ -739,7 +739,7 @@
             this.btnAddProduct.Margin = new System.Windows.Forms.Padding(10, 10, 5, 5);
             this.btnAddProduct.Name = "btnAddProduct";
             this.btnAddProduct.Size = new System.Drawing.Size(150, 50);
-            this.btnAddProduct.TabIndex = 2;
+            this.btnAddProduct.TabIndex = 0;
             this.btnAddProduct.Text = "상품";
             this.btnAddProduct.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btnAddProduct.TextOffset = new System.Drawing.Point(17, 0);
@@ -772,7 +772,6 @@
         private Guna.UI2.WinForms.Guna2ControlBox btnMax;
         private Guna.UI2.WinForms.Guna2ControlBox btnExit;
         private Guna.UI2.WinForms.Guna2Button btnAdd;
-        private Guna.UI2.WinForms.Guna2Panel paMain;
         private Guna.UI2.WinForms.Guna2Panel paAdd;
         private Guna.UI2.WinForms.Guna2Button btnAddReceipt;
         private Guna.UI2.WinForms.Guna2Button btnAddPayment;
@@ -793,5 +792,6 @@
         private Guna.UI2.WinForms.Guna2Button btnSupplier;
         private Guna.UI2.WinForms.Guna2Button btnCustomer;
         private Guna.UI2.WinForms.Guna2CircleProgressBar guna2CircleProgressBar1;
+        public Guna.UI2.WinForms.Guna2Panel paMain;
     }
 }

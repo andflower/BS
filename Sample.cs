@@ -19,9 +19,10 @@ namespace BS
             InitializeComponent();
             MainClass.MsgCaption = "결제 시스템";
             MainClass.conString =
-                @"Server=GOMDDANJI\\SQLEXPRESS01;
-                  Database=BS;
-                  Trusted_Connection=True;";
+                @"Data Source=GOMDDANJI\SQLEXPRESS01;
+                Initial Catalog=BillingSystem;
+                Integrated Security=True";
+            MainClass.con.ConnectionString = MainClass.conString;
         }
     }
 }

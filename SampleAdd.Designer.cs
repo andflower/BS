@@ -51,7 +51,7 @@
             this.paTop.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.paTop.Location = new System.Drawing.Point(0, 0);
             this.paTop.Name = "paTop";
-            this.paTop.Size = new System.Drawing.Size(800, 100);
+            this.paTop.Size = new System.Drawing.Size(830, 100);
             this.paTop.TabIndex = 0;
             // 
             // label1
@@ -78,7 +78,7 @@
             this.paBottom.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.paBottom.Location = new System.Drawing.Point(0, 410);
             this.paBottom.Name = "paBottom";
-            this.paBottom.Size = new System.Drawing.Size(800, 90);
+            this.paBottom.Size = new System.Drawing.Size(830, 90);
             this.paBottom.TabIndex = 0;
             // 
             // btnDel
@@ -96,7 +96,7 @@
             this.btnDel.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnDel.ForeColor = System.Drawing.Color.White;
             this.btnDel.Image = global::BS.Properties.Resources.trash;
-            this.btnDel.Location = new System.Drawing.Point(720, 20);
+            this.btnDel.Location = new System.Drawing.Point(750, 20);
             this.btnDel.Margin = new System.Windows.Forms.Padding(0, 20, 30, 20);
             this.btnDel.Name = "btnDel";
             this.btnDel.Size = new System.Drawing.Size(50, 50);
@@ -127,9 +127,8 @@
             // 
             // btnSave
             // 
-            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.btnSave.Animated = true;
             this.btnSave.BackColor = System.Drawing.Color.Transparent;
             this.btnSave.BorderRadius = 25;
@@ -151,7 +150,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(800, 500);
+            this.ClientSize = new System.Drawing.Size(830, 500);
             this.Controls.Add(this.paBottom);
             this.Controls.Add(this.paTop);
             this.Name = "SampleAdd";

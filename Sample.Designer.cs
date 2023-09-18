@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.guna2BorderlessForm1 = new Guna.UI2.WinForms.Guna2BorderlessForm(this.components);
+            this.gHtmlToolTip = new Guna.UI2.WinForms.Guna2HtmlToolTip();
             this.SuspendLayout();
             // 
             // guna2BorderlessForm1
@@ -39,6 +40,12 @@
             this.guna2BorderlessForm1.DockIndicatorTransparencyValue = 0.6D;
             this.guna2BorderlessForm1.HasFormShadow = false;
             this.guna2BorderlessForm1.TransparentWhileDrag = true;
+            // 
+            // gHtmlToolTip
+            // 
+            this.gHtmlToolTip.AllowLinksHandling = true;
+            this.gHtmlToolTip.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gHtmlToolTip.MaximumSize = new System.Drawing.Size(0, 0);
             // 
             // Sample
             // 
@@ -58,6 +65,7 @@
         #endregion
 
         public Guna.UI2.WinForms.Guna2BorderlessForm guna2BorderlessForm1;
+        public Guna.UI2.WinForms.Guna2HtmlToolTip gHtmlToolTip;
     }
 }
 

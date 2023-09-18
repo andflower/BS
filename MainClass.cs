@@ -13,6 +13,11 @@ using System.Drawing;
 using System.Web.UI;
 using System.Text.RegularExpressions;
 using Control = System.Windows.Forms.Control;
+using System.Diagnostics;
+using System.ComponentModel;
+using System.IO;
+using PhoneNumbers;
+using BS.Model;
 
 namespace BS
 {
@@ -253,6 +258,7 @@ namespace BS
             Form Background = new Form();
             using (Model)
             {
+                
                 Background.StartPosition = FormStartPosition.Manual;
                 Background.FormBorderStyle = FormBorderStyle.None;
                 Background.Opacity = 0.5d;
@@ -376,22 +382,32 @@ namespace BS
 
         public eumType action;
 
-        public static int AutoSQL(Form frm, string tableName, eumType type, int id)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="frm">작업할 Form</param>
+        /// <param name="tableName">Add 되는 테이블 이름</param>
+        /// <param name="type">enumType : Insert, Update, Delete</param>
+        /// <param name="id">Add 되는 id</param>
+        /// <param name="ignoredColumns">제외되는 열이름(type: ArrayList)</param>
+        /// <returns></returns>
+        public static int AutoSQL(Form frm, string tableName, eumType type, int id, ArrayList ignoredColumns)
         {
             string query = "";
             SqlCommand cmd = new SqlCommand();
             int sqlResult = 0;
+            string prefixColumnName = tableName.Replace("TABLE_", "") + "_";
 
             switch (type)
             {
                 case eumType.Insert:
-                    query = $"INSERT INTO {tableName} VALUES (";
+                    query = $"INSERT INTO {tableName} (";
                     break;
                 case eumType.Update:
                     query = $"UPDATE {tableName} SET ";
                     break;
                 case eumType.Delete:
-                    query = $"DELETE FROM {tableName} WHERE ID = @ID"; // 예시로 ID 기반 삭제
+                    query = $"DELETE FROM {tableName} WHERE {prefixColumnName}ID = @ID"; // 예시로 ID 기반 삭제
                     cmd.Parameters.AddWithValue("@ID", id);
                     break;
                 default:
@@ -402,31 +418,40 @@ namespace BS
 
             foreach (Control c in frm.Controls)
             {
-                if (c is Guna2TextBox)
+                if (!ignoredColumns.Contains(c.Name))
                 {
-                    Guna2TextBox t = c as Guna2TextBox;
-                    string colName = t.Name;
-                    string colValue = t.Text;
-                    columnNames.Add($"{colName} = @{colName}");
-                    cmd.Parameters.AddWithValue("@" + colName, colValue);
-                }
-                else if (c is Guna2ComboBox)
-                {
-                    Guna2ComboBox cb = c as Guna2ComboBox;
-                    string colName = cb.Name;
-                    string colValue = cb.Text;
-                    columnNames.Add($"{colName} = @{colName}");
-                    cmd.Parameters.AddWithValue("@" + colName, colValue);
+                    if (c is Guna2TextBox)
+                    {
+                        Guna2TextBox t = c as Guna2TextBox;
+                        string colName = prefixColumnName + t.Name.Replace("txt", "").ToUpper();
+                        string colValue = t.Text;
+                        columnNames.Add($"{colName}");
+                        cmd.Parameters.AddWithValue("@" + colName, colValue);
+                    }
+                    else if (c is Guna2ComboBox)
+                    {
+                        Guna2ComboBox cb = c as Guna2ComboBox;
+                        string colName = prefixColumnName + cb.Name.Replace("cb", "").ToUpper();
+                        string colValue = cb.Text;
+                        columnNames.Add($"{colName}");
+                        cmd.Parameters.AddWithValue("@" + colName, colValue);
+                    }
                 }
             }
 
             if (type == eumType.Insert)
             {
-                query += string.Join(", ", columnNames) + ");";
+                query += string.Join(", ", columnNames) + ") VALUES (";
+                query += "@" + string.Join(", @", columnNames) + ");";
             }
             else if (type == eumType.Update)
             {
-                query += string.Join(", ", columnNames) + $" WHERE ID = @ID"; // 예시로 ID 기반 업데이트
+                List<string> updateStatements = new List<string>();
+                foreach (string colName in columnNames)
+                {
+                    updateStatements.Add($"{colName} = @{colName}");
+                }
+                query += string.Join(", ", updateStatements) + $" WHERE ID = @ID"; // 예시로 ID 기반 업데이트
                 cmd.Parameters.AddWithValue("@ID", id);
             }
 
@@ -438,11 +463,6 @@ namespace BS
                 con.Open();
                 sqlResult = cmd.ExecuteNonQuery();
                 con.Close();
-
-                if (sqlResult > 0)
-                {
-                    MessageBox.Show($"{type} 작업이 성공하였습니다.");
-                }
             }
             catch (Exception ex)
             {
@@ -464,7 +484,7 @@ namespace BS
             da.Fill(dtSchema);
 
             // Build the SELECT query with the WHERE clause to fetch data by ID
-            string selectQuery = $"SELECT * FROM {tableName} WHERE {tableName}_ID = @ID";
+            string selectQuery = $"SELECT * FROM {tableName} WHERE {tableName.Replace("TABLE_", "")}_ID = @ID";
             SqlCommand selectCmd = new SqlCommand(selectQuery, con);
             selectCmd.Parameters.AddWithValue("@ID", id);
             SqlDataAdapter selectDa = new SqlDataAdapter(selectCmd);
@@ -481,8 +501,12 @@ namespace BS
                 {
                     if (control is Guna2TextBox || control is Guna2ComboBox)
                     {
-                        string columnName = control.Name;
-                        if (dtSchema.Columns.Contains(columnName))
+                        string columnName = "";
+                        if (control is Guna2TextBox)
+                            columnName = tableName.Replace("TABLE_", "") + "_" + control.Name.Trim().Replace("txt", "").ToUpper();
+                        else if (control is Guna2ComboBox)
+                            columnName = tableName + "_" + control.Name.Trim().Replace("cb", "").ToUpper();
+                        if (dtData.Columns.Contains(columnName))
                         {
                             // Set the value based on the data type
                             if (control is Guna2TextBox)
@@ -708,24 +732,34 @@ namespace BS
             }
         }
 
-        private static readonly Color vColor = Color.FromArgb(245, 29, 70);
-
-        public static bool Validation(Form F)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="F"></param>
+        /// <param name="col"></param>
+        /// <param name="font"></param>
+        /// <param name="px"></param>
+        /// <param name="py"></param>
+        /// <returns></returns>
+        public static bool Validate(Form F, Color col, Font font, int px, int py, string alpha2_Code, string numeric_Code)
         {
             bool isValid = true;
             int count = 0;
             int x;
             int y;
+            int rad;
+            Font lblFont = font;
+            Color vColor = col;
 
-            var dynamicLabels = F.Controls.OfType<Label>().Where(c => c.Tag != null && c.Tag.ToString() == "remove").ToList();
+        var dynamicLabels = F.Controls.OfType<Label>().Where(c => c.Tag != null && c.Tag.ToString() == "remove").ToList();
             foreach (var lbl in dynamicLabels)
             {
                 F.Controls.Remove(lbl);
             }
 
-            foreach (System.Windows.Forms.Control c in F.Controls)
+            foreach (Control c in F.Controls)
             {
-                if (c is Guna.UI2.WinForms.Guna2Button)
+                if (c is Guna2Button)
                 {
 
                 }
@@ -733,75 +767,201 @@ namespace BS
                 {
                     if (c.Tag == null || c.Tag.ToString() == string.Empty)
                     {
-
+                        if (c is Guna2TextBox)
+                        {
+                            Guna2TextBox t = c as Guna2TextBox;
+                            t.BorderColor = Color.Red;
+                            t.FocusedState.BorderColor = Color.Red;
+                            t.HoverState.BorderColor = Color.Red;
+                        }
+                        else if (c is Guna2ComboBox)
+                        {
+                            Guna2ComboBox t = c as Guna2ComboBox;
+                            t.BorderColor = Color.Red;
+                            t.FocusedState.BorderColor = Color.Red;
+                            t.HoverState.BorderColor = Color.Red;
+                        }
                     }
                     else
                     {
+                        if (c is Guna2TextBox)
+                        {
+                            Guna2TextBox t = c as Guna2TextBox;
+                            t.BorderColor = Color.FromArgb(213, 218, 223);
+                            t.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+                            t.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+                        }
+                        else if (c is Guna2ComboBox)
+                        {
+                            Guna2ComboBox t = c as Guna2ComboBox;
+                            t.BorderColor = Color.FromArgb(213, 218, 223);
+                            t.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+                            t.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+                        }
                         Label lbl = new Label
                         {
-                            Font = new Font("나눔고딕", 10, FontStyle.Regular),
+                            Font = lblFont,
                             AutoSize = true
                         };
 
                         // TextBox
-                        if (c is Guna.UI2.WinForms.Guna2TextBox)
+                        if (c is Guna2TextBox)
                         {
-                            Guna.UI2.WinForms.Guna2TextBox t = (Guna.UI2.WinForms.Guna2TextBox)c;
-                            if (t.AutoRoundedCorners == true)
+                            Guna2TextBox t = c as Guna2TextBox;
+                            if (t.AutoRoundedCorners == true || t.BorderRadius > 0)
                             {
-                                x = int.Parse(c.Location.X.ToString()) + 10;
-                                y = int.Parse(c.Location.Y.ToString()) + 5 + int.Parse(c.Height.ToString());
+                                rad = (int)((t.BorderRadius / 2) + 0.5);
+                                x = int.Parse(c.Location.X.ToString()) + px + int.Parse(rad.ToString());
+                                y = int.Parse(c.Location.Y.ToString()) + int.Parse(c.Height.ToString()) + py;
                             }
                             else
                             {
-                                x = int.Parse(c.Location.X.ToString());
-                                y = int.Parse(c.Location.Y.ToString()) + 5 + int.Parse(c.Height.ToString());
+                                x = int.Parse(c.Location.X.ToString()) + px;
+                                y = int.Parse(c.Location.Y.ToString()) + int.Parse(c.Height.ToString()) + py;
                             }
-                            if (t.Text == "")
+                            if (t.Tag.ToString() == "s" && t.Text.Trim() == "")
                             {
-                                string cname = "vlbl" + c.Name;
-                                lbl.Name = cname;
-                                lbl.Tag = "remove";
-                                lbl.Text = "Required";
-                                lbl.ForeColor = vColor;
-                                //lbl.Font = new Font("Bookman Old Style", 9, FontStyle.Regular);
-                                F.Controls.Add(lbl);
-
-                                lbl.Location = new System.Drawing.Point(x, y);
-
-                                count++;
-                            }
-                        }
-                        // Email
-                        if (c is Guna.UI2.WinForms.Guna2TextBox)
-                        {
-                            Guna.UI2.WinForms.Guna2TextBox t = (Guna.UI2.WinForms.Guna2TextBox)c;
-                            if (t.AutoRoundedCorners == true)
-                            {
-                                x = int.Parse(c.Location.X.ToString()) + 10;
-                                y = int.Parse(c.Location.Y.ToString()) + 5 + int.Parse(c.Height.ToString());
-                            }
-                            else
-                            {
-                                x = int.Parse(c.Location.X.ToString());
-                                y = int.Parse(c.Location.Y.ToString()) + 5 + int.Parse(c.Height.ToString());
-                            }
-                            if (t.Tag.ToString() == "e" && t.Text != "")
-                            {
-                                Regex regex = new Regex(@"([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+                                Regex regex = new Regex(@"^[a-zA-Z][a-zA-Z ]*$");
                                 Match match = regex.Match(t.Text);
                                 if (match.Success) { }
                                 else
                                 {
-                                    string cname = "elbl" + c.Name;
+                                    // validate label
+                                    string cname = "vlbl" + c.Name;
                                     lbl.Name = cname;
                                     lbl.Tag = "remove";
-                                    lbl.Text = "Invalid Email";
+                                    lbl.Text = "알 수 없는 문자열 형식";
                                     lbl.ForeColor = vColor;
-                                    //lbl.Font = new Font("Bookman Old Style", 9, FontStyle.Regular);
+                                    lbl.Font = lblFont;
                                     F.Controls.Add(lbl);
 
-                                    lbl.Location = new System.Drawing.Point(x, y);
+                                    lbl.Location = new Point(x, y);
+
+                                    t.BorderColor = Color.Red;
+                                    t.FocusedState.BorderColor = Color.Red;
+                                    t.HoverState.BorderColor = Color.Red;
+
+                                    count++;
+                                }
+                            }
+                        }
+
+                        // id
+                        if (c is Guna2TextBox)
+                        {
+                            Guna2TextBox t = c as Guna2TextBox;
+                            if (t.AutoRoundedCorners == true || t.BorderRadius > 0)
+                            {
+                                rad = (int)((t.BorderRadius / 2) + 0.5);
+                                x = int.Parse(c.Location.X.ToString()) + px + int.Parse(rad.ToString());
+                                y = int.Parse(c.Location.Y.ToString()) + int.Parse(c.Height.ToString()) + py;
+                            }
+                            else
+                            {
+                                x = int.Parse(c.Location.X.ToString()) + px;
+                                y = int.Parse(c.Location.Y.ToString()) + int.Parse(c.Height.ToString()) + py;
+                            }
+                            if (t.Tag.ToString() == "id")
+                            {
+                                Regex regex = new Regex(@"^([a-zA-Z]+)(([a-zA-Z0-9]{5,19})+)$");
+                                Match match = regex.Match(t.Text);
+                                if (match.Success) { }
+                                else
+                                {
+                                    lbl.Name = t.Tag.ToString() + "lbl" + c.Name;
+                                    lbl.Tag = "remove";
+                                    lbl.Text = "알 수 없는 아이디 형식";
+                                    lbl.ForeColor = vColor;
+                                    lbl.Font = lblFont;
+                                    F.Controls.Add(lbl);
+
+                                    lbl.Location = new Point(x, y);
+
+                                    t.BorderColor = Color.Red;
+                                    t.FocusedState.BorderColor = Color.Red;
+                                    t.HoverState.BorderColor = Color.Red;
+
+                                    count++;
+                                }
+                            }
+                        }
+
+                        // Password
+                        if (c is Guna2TextBox)
+                        {
+                            Guna2TextBox t = c as Guna2TextBox;
+                            if (t.AutoRoundedCorners == true || t.BorderRadius > 0)
+                            {
+                                rad = (int)((t.BorderRadius / 2) + 0.5);
+                                x = int.Parse(c.Location.X.ToString()) + px + int.Parse(rad.ToString());
+                                y = int.Parse(c.Location.Y.ToString()) + int.Parse(c.Height.ToString()) + py;
+                            }
+                            else
+                            {
+                                x = int.Parse(c.Location.X.ToString()) + px;
+                                y = int.Parse(c.Location.Y.ToString()) + int.Parse(c.Height.ToString()) + py;
+                            }
+                            // 8 ~ 16자 영문, 숫자, 특수문자를 최소 한가지씩 조합
+                            if (t.Tag.ToString() == "pass")
+                            {
+                                Regex regex = new Regex(@"^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$");
+                                Match match = regex.Match(t.Text);
+                                if (match.Success) { }
+                                else
+                                {
+                                    lbl.Name = t.Tag.ToString() + "lbl" + c.Name;
+                                    lbl.Tag = "remove";
+                                    lbl.Text = "알 수 없는 비밀번호 형식";
+                                    lbl.ForeColor = vColor;
+                                    lbl.Font = lblFont;
+                                    F.Controls.Add(lbl);
+
+                                    lbl.Location = new Point(x, y);
+
+                                    t.BorderColor = Color.Red;
+                                    t.FocusedState.BorderColor = Color.Red;
+                                    t.HoverState.BorderColor = Color.Red;
+
+                                    count++;
+                                }
+                            }
+                        }
+
+                        // Email
+                        if (c is Guna2TextBox)
+                        {
+                            Guna2TextBox t = c as Guna2TextBox;
+                            if (t.AutoRoundedCorners == true || t.BorderRadius > 0)
+                            {
+                                rad = (int)((t.BorderRadius / 2) + 0.5);
+                                x = int.Parse(c.Location.X.ToString()) + px + int.Parse(rad.ToString());
+                                y = int.Parse(c.Location.Y.ToString()) + int.Parse(c.Height.ToString()) + py;
+                            }
+                            else
+                            {
+                                x = int.Parse(c.Location.X.ToString()) + px;
+                                y = int.Parse(c.Location.Y.ToString()) + int.Parse(c.Height.ToString()) + py;
+                            }
+                            if (t.Tag.ToString() == "e")
+                            {
+                                Regex regex = new Regex(@"^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$");
+                                Match match = regex.Match(t.Text);
+                                if (match.Success) { }
+                                else
+                                {
+                                    string cname = t.Tag.ToString() + "lbl" + c.Name;
+                                    lbl.Name = cname;
+                                    lbl.Tag = "remove";
+                                    lbl.Text = "알 수 없는 이메일 형식";
+                                    lbl.ForeColor = vColor;
+                                    lbl.Font = lblFont;
+                                    F.Controls.Add(lbl);
+
+                                    lbl.Location = new Point(x, y);
+
+                                    t.BorderColor = Color.Red;
+                                    t.FocusedState.BorderColor = Color.Red;
+                                    t.HoverState.BorderColor = Color.Red;
 
                                     count++;
                                 }
@@ -809,35 +969,85 @@ namespace BS
                         }
 
                         // Number
-                        if (c is Guna.UI2.WinForms.Guna2TextBox)
+                        if (c is Guna2TextBox)
                         {
-                            Guna.UI2.WinForms.Guna2TextBox t = (Guna.UI2.WinForms.Guna2TextBox)c;
-                            if (t.AutoRoundedCorners == true)
+                            Guna2TextBox t = c as Guna2TextBox;
+                            if (t.AutoRoundedCorners == true || t.BorderRadius > 0)
                             {
-                                x = int.Parse(c.Location.X.ToString()) + 10;
-                                y = int.Parse(c.Location.Y.ToString()) + 5 + int.Parse(c.Height.ToString());
+                                rad = (int)((t.BorderRadius / 2) + 0.5);
+                                x = int.Parse(c.Location.X.ToString()) + px + int.Parse(rad.ToString());
+                                y = int.Parse(c.Location.Y.ToString()) + int.Parse(c.Height.ToString()) + py;
                             }
                             else
                             {
-                                x = int.Parse(c.Location.X.ToString());
-                                y = int.Parse(c.Location.Y.ToString()) + 5 + int.Parse(c.Height.ToString());
+                                x = int.Parse(c.Location.X.ToString()) + px;
+                                y = int.Parse(c.Location.Y.ToString()) + int.Parse(c.Height.ToString()) + py;
                             }
-                            if (t.Tag.ToString() == "e" && t.Text != "")
+                            if (t.Tag.ToString() == "n")
                             {
                                 Regex regex = new Regex(@"^-?[0-9][0-9,\.]+$");
                                 Match match = regex.Match(t.Text);
                                 if (match.Success) { }
                                 else
                                 {
-                                    string cname = "nlbl" + c.Name;
+                                    string cname = t.Tag.ToString() + "nlbl" + c.Name;
                                     lbl.Name = cname;
                                     lbl.Tag = "remove";
-                                    lbl.Text = "Invalid Number";
+                                    lbl.Text = "알 수 없는 숫자 형식";
                                     lbl.ForeColor = vColor;
-                                    //lbl.Font = new Font("Bookman Old Style", 9, FontStyle.Regular);
+                                    lbl.Font = lblFont;
                                     F.Controls.Add(lbl);
 
-                                    lbl.Location = new System.Drawing.Point(x, y);
+                                    lbl.Location = new Point(x, y);
+
+                                    t.BorderColor = Color.Red;
+                                    t.FocusedState.BorderColor = Color.Red;
+                                    t.HoverState.BorderColor = Color.Red;
+
+                                    count++;
+                                }
+                            }
+                        }
+
+                        // Telephone Number
+                        if (c is Guna2TextBox)
+                        {
+                            Guna2TextBox t = c as Guna2TextBox;
+                            if (t.AutoRoundedCorners == true || t.BorderRadius > 0)
+                            {
+                                rad = (int)((t.BorderRadius / 2) + 0.5);
+                                x = int.Parse(c.Location.X.ToString()) + px + int.Parse(rad.ToString());
+                                y = int.Parse(c.Location.Y.ToString()) + int.Parse(c.Height.ToString()) + py;
+                            }
+                            else
+                            {
+                                x = int.Parse(c.Location.X.ToString()) + px;
+                                y = int.Parse(c.Location.Y.ToString()) + int.Parse(c.Height.ToString()) + py;
+                            }
+                            if (t.Tag.ToString() == "p")
+                            {
+                                // 미국식 전화번호
+                                //Regex regex = new Regex(@"^([+]?1[\s]?)?((?:[(](?:[2-9]1[02-9]|[2-9][02-8][0-9])[)][\s]?)|(?:(?:[2-9]1[02-9]|[2-9][02-8][0-9])[\s.-]?)){1}([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2}[\s.-]?){1}([0-9]{4}){1}$");
+                                //Regex regex = new Regex(@"^([2-6]\d{3}-\d{4})|(0[1-5]\d-\d{4}-\d{4})|(0\d{2}-\d{3}-\d{7})|(00\d{1,3}-\d{3}-\d{7})|\((0\d{2})-1\d{3}\)$");
+                                //Match match = regex.Match(t.Text);
+                                //if (match.Success) { }
+
+                                if (IsValPhoneNumber(t, alpha2_Code, numeric_Code)) { }
+                                else
+                                {
+                                    string cname = t.Tag.ToString() + "nlbl" + c.Name;
+                                    lbl.Name = cname;
+                                    lbl.Tag = "remove";
+                                    lbl.Text = "알 수 없는 전화번호 형식";
+                                    lbl.ForeColor = vColor;
+                                    lbl.Font = lblFont;
+                                    F.Controls.Add(lbl);
+
+                                    lbl.Location = new Point(x, y);
+
+                                    t.BorderColor = Color.Red;
+                                    t.FocusedState.BorderColor = Color.Red;
+                                    t.HoverState.BorderColor = Color.Red;
 
                                     count++;
                                 }
@@ -845,20 +1055,21 @@ namespace BS
                         }
 
                         // Date
-                        if (c is Guna.UI2.WinForms.Guna2TextBox)
+                        if (c is Guna2TextBox)
                         {
-                            Guna.UI2.WinForms.Guna2TextBox t = (Guna.UI2.WinForms.Guna2TextBox)c;
-                            if (t.AutoRoundedCorners == true)
+                            Guna2TextBox t = c as Guna2TextBox;
+                            if (t.AutoRoundedCorners == true || t.BorderRadius > 0)
                             {
-                                x = int.Parse(c.Location.X.ToString()) + 10;
-                                y = int.Parse(c.Location.Y.ToString()) + 5 + int.Parse(c.Height.ToString());
+                                rad = (int)((t.BorderRadius / 2) + 0.5);
+                                x = int.Parse(c.Location.X.ToString()) + px + int.Parse(rad.ToString());
+                                y = int.Parse(c.Location.Y.ToString()) + int.Parse(c.Height.ToString()) + py;
                             }
                             else
                             {
-                                x = int.Parse(c.Location.X.ToString());
-                                y = int.Parse(c.Location.Y.ToString()) + 5 + int.Parse(c.Height.ToString());
+                                x = int.Parse(c.Location.X.ToString()) + px;
+                                y = int.Parse(c.Location.Y.ToString()) + int.Parse(c.Height.ToString()) + py;
                             }
-                            if (t.Tag.ToString() == "d" && t.Text != "")
+                            if (t.Tag.ToString() == "d")
                             {
                                 DateTime dt = new DateTime(1990, 1, 1).Date;
                                 Regex regex = new Regex("([0]?[0-9]|[12][0-9]|[3][01])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$");
@@ -869,58 +1080,67 @@ namespace BS
                                     int len = t.Text.Length;
                                     if(len != 10)
                                     {
-                                        string cname = "dlbl" + c.Name;
+                                        string cname = t.Tag.ToString() + "lbl" + c.Name;
                                         lbl.Name = cname;
                                         lbl.Tag = "remove";
                                         lbl.ForeColor = vColor;
-                                        //lbl.Font = new Font("Bookman Old Style", 9, FontStyle.Regular);
+                                        lbl.Font = lblFont;
                                         F.Controls.Add(lbl);
-                                        lbl.Location = new System.Drawing.Point(x, y);
+                                        lbl.Location = new Point(x, y);
                                         count++;
                                     }
                                 }
                                 else
                                 {
-                                    string cname = "dlbl" + c.Name;
+                                    string cname = t.Tag.ToString() + "lbl" + c.Name;
                                     lbl.Name = cname;
                                     lbl.Tag = "remove";
-                                    lbl.Text = "Invalid Date";
+                                    lbl.Text = "알 수 없는 Date형식";
                                     lbl.ForeColor = vColor;
-                                    lbl.Font = new Font("Bookman Old Style", 9, FontStyle.Regular);
+                                    lbl.Font = lblFont;
                                     F.Controls.Add(lbl);
 
-                                    lbl.Location = new System.Drawing.Point(x, y);
+                                    lbl.Location = new Point(x, y);
+
+                                    t.BorderColor = Color.Red;
+                                    t.FocusedState.BorderColor = Color.Red;
+                                    t.HoverState.BorderColor = Color.Red;
 
                                     count++;
                                 }
                             }
                         }
 
-                        // Dropdown
-                        if (c is Guna.UI2.WinForms.Guna2TextBox)
+                        // ComboBox
+                        if (c is Guna2ComboBox)
                         {
-                            Guna.UI2.WinForms.Guna2TextBox t = (Guna.UI2.WinForms.Guna2TextBox)c;
-                            if (t.AutoRoundedCorners == true)
+                            Guna2ComboBox t = c as Guna2ComboBox;
+                            if (t.AutoRoundedCorners == true || t.BorderRadius > 0)
                             {
-                                x = int.Parse(c.Location.X.ToString()) + 10;
-                                y = int.Parse(c.Location.Y.ToString()) + 5 + int.Parse(c.Height.ToString());
+                                rad = (int)((t.BorderRadius / 2) + 0.5);
+                                x = int.Parse(c.Location.X.ToString()) + px + int.Parse(rad.ToString());
+                                y = int.Parse(c.Location.Y.ToString()) + int.Parse(c.Height.ToString()) + py;
                             }
                             else
                             {
-                                x = int.Parse(c.Location.X.ToString());
-                                y = int.Parse(c.Location.Y.ToString()) + 5 + int.Parse(c.Height.ToString());
+                                x = int.Parse(c.Location.X.ToString()) + px;
+                                y = int.Parse(c.Location.Y.ToString()) + int.Parse(c.Height.ToString()) + py;
                             }
-                            if (t.Tag.ToString() == "e" && t.Text != "")
+                            if (t.Tag.ToString() == "cb" && t.Text == "")
                             {
-                                string cname = "lbl" + c.Name;
+                                string cname = t.Tag.ToString() + "cb" + c.Name;
                                 lbl.Name = cname;
                                 lbl.Tag = "remove";
-                                lbl.Text = "Required";
+                                lbl.Text = "데이터를 선택하여 주세요.";
                                 lbl.ForeColor = vColor;
-                                //lbl.Font = new Font("Bookman Old Style", 9, FontStyle.Regular);
+                                lbl.Font = lblFont;
                                 F.Controls.Add(lbl);
 
-                                lbl.Location = new System.Drawing.Point(x, y);
+                                lbl.Location = new Point(x, y);
+
+                                t.BorderColor = Color.Red;
+                                t.FocusedState.BorderColor = Color.Red;
+                                t.HoverState.BorderColor = Color.Red;
 
                                 count++;
                             }
@@ -938,6 +1158,25 @@ namespace BS
                 isValid = false;
             }
             return isValid;
+        }
+
+        private static bool IsValPhoneNumber(Guna2TextBox t, string alpha2_Code, string numeric_Code)
+        {
+            bool isValPhoneNumber = false;
+            PhoneNumberUtil phoneUtil = PhoneNumberUtil.GetInstance();
+
+            try
+            {
+                PhoneNumber number = phoneUtil.Parse(t.Text, alpha2_Code);
+                t.Text = phoneUtil.Format(number, PhoneNumberFormat.INTERNATIONAL);
+                isValPhoneNumber = true;
+            }
+            catch (NumberParseException)
+            {
+                t.Text = numeric_Code;
+            }
+
+            return isValPhoneNumber;
         }
 
         public static void Enable_Reset(Form p)
