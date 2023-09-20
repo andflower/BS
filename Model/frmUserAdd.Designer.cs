@@ -91,13 +91,14 @@
             // 
             // btnDel
             // 
-            this.btnDel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.btnDel.Animated = false;
             this.btnDel.DialogResult = System.Windows.Forms.DialogResult.None;
             this.btnDel.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnDel.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnDel.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnDel.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnDel.Location = new System.Drawing.Point(-1375, 20);
+            this.btnDel.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold);
+            this.btnDel.Location = new System.Drawing.Point(500, 20);
             // 
             // gHtmlToolTip
             // 
@@ -131,6 +132,7 @@
             this.txtPassword.TabIndex = 1;
             this.txtPassword.Tag = "pass";
             this.txtPassword.TextOffset = new System.Drawing.Point(15, 0);
+            this.txtPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.object_KeyDown);
             // 
             // txtEmail
             // 
@@ -158,6 +160,7 @@
             this.txtEmail.TabIndex = 3;
             this.txtEmail.Tag = "e";
             this.txtEmail.TextOffset = new System.Drawing.Point(15, 0);
+            this.txtEmail.KeyDown += new System.Windows.Forms.KeyEventHandler(this.object_KeyDown);
             // 
             // lblEmail
             // 
@@ -209,6 +212,7 @@
             this.txtName.TabIndex = 2;
             this.txtName.Tag = "s";
             this.txtName.TextOffset = new System.Drawing.Point(15, 0);
+            this.txtName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.object_KeyDown);
             // 
             // txtAccount
             // 
@@ -235,6 +239,7 @@
             this.txtAccount.TabIndex = 0;
             this.txtAccount.Tag = "id";
             this.txtAccount.TextOffset = new System.Drawing.Point(15, 0);
+            this.txtAccount.KeyDown += new System.Windows.Forms.KeyEventHandler(this.object_KeyDown);
             // 
             // lblName
             // 
@@ -310,6 +315,7 @@
             this.txtPhone.TabIndex = 5;
             this.txtPhone.Tag = "p";
             this.txtPhone.TextOffset = new System.Drawing.Point(15, 0);
+            this.txtPhone.KeyDown += new System.Windows.Forms.KeyEventHandler(this.object_KeyDown);
             this.txtPhone.MouseClick += new System.Windows.Forms.MouseEventHandler(this.txtPhone_MouseClick);
             // 
             // cbCountury
@@ -337,6 +343,7 @@
             this.cbCountury.TabIndex = 4;
             this.cbCountury.Tag = "cb";
             this.cbCountury.TextOffset = new System.Drawing.Point(15, 0);
+            this.cbCountury.KeyDown += new System.Windows.Forms.KeyEventHandler(this.object_KeyDown);
             // 
             // qPass
             // 
@@ -351,8 +358,8 @@
             this.qPass.TabIndex = 22;
             this.qPass.TabStop = false;
             this.qPass.UseTransparentBackground = true;
-            this.qPass.MouseEnter += new System.EventHandler(this.qPass_MouseEnter);
-            this.qPass.MouseLeave += new System.EventHandler(this.qPass_MouseLeave);
+            this.qPass.MouseEnter += new System.EventHandler(this.q_MouseEnter);
+            this.qPass.MouseLeave += new System.EventHandler(this.q_MouseLeave);
             // 
             // qEmail
             // 
@@ -367,8 +374,8 @@
             this.qEmail.TabIndex = 23;
             this.qEmail.TabStop = false;
             this.qEmail.UseTransparentBackground = true;
-            this.qEmail.MouseEnter += new System.EventHandler(this.qEmail_MouseEnter);
-            this.qEmail.MouseLeave += new System.EventHandler(this.qEmail_MouseLeave);
+            this.qEmail.MouseEnter += new System.EventHandler(this.q_MouseEnter);
+            this.qEmail.MouseLeave += new System.EventHandler(this.q_MouseLeave);
             // 
             // qPhone
             // 
@@ -383,8 +390,8 @@
             this.qPhone.TabIndex = 24;
             this.qPhone.TabStop = false;
             this.qPhone.UseTransparentBackground = true;
-            this.qPhone.MouseEnter += new System.EventHandler(this.qPhone_MouseEnter);
-            this.qPhone.MouseLeave += new System.EventHandler(this.qPhone_MouseLeave);
+            this.qPhone.MouseEnter += new System.EventHandler(this.q_MouseEnter);
+            this.qPhone.MouseLeave += new System.EventHandler(this.q_MouseLeave);
             // 
             // qName
             // 
@@ -399,8 +406,8 @@
             this.qName.TabIndex = 25;
             this.qName.TabStop = false;
             this.qName.UseTransparentBackground = true;
-            this.qName.MouseEnter += new System.EventHandler(this.qName_MouseEnter);
-            this.qName.MouseLeave += new System.EventHandler(this.qName_MouseLeave);
+            this.qName.MouseEnter += new System.EventHandler(this.q_MouseEnter);
+            this.qName.MouseLeave += new System.EventHandler(this.q_MouseLeave);
             // 
             // qAccount
             // 
@@ -415,8 +422,8 @@
             this.qAccount.TabIndex = 26;
             this.qAccount.TabStop = false;
             this.qAccount.UseTransparentBackground = true;
-            this.qAccount.MouseEnter += new System.EventHandler(this.qAccount_MouseEnter);
-            this.qAccount.MouseLeave += new System.EventHandler(this.qAccount_MouseLeave);
+            this.qAccount.MouseEnter += new System.EventHandler(this.q_MouseEnter);
+            this.qAccount.MouseLeave += new System.EventHandler(this.q_MouseLeave);
             // 
             // qCountury
             // 
@@ -431,13 +438,13 @@
             this.qCountury.TabIndex = 27;
             this.qCountury.TabStop = false;
             this.qCountury.UseTransparentBackground = true;
-            this.qCountury.MouseEnter += new System.EventHandler(this.qCountury_MouseEnter);
-            this.qCountury.MouseLeave += new System.EventHandler(this.qCountury_MouseLeave);
+            this.qCountury.MouseEnter += new System.EventHandler(this.q_MouseEnter);
+            this.qCountury.MouseLeave += new System.EventHandler(this.q_MouseLeave);
             // 
             // frmUserAdd
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(580, 550);
             this.Controls.Add(this.qCountury);
             this.Controls.Add(this.qAccount);
@@ -506,12 +513,12 @@
         private System.Windows.Forms.Label lblCountury;
         private System.Windows.Forms.Label lblPhone;
         private Guna.UI2.WinForms.Guna2TextBox txtPhone;
-        private Guna.UI2.WinForms.Guna2ComboBox cbCountury;
         private Guna.UI2.WinForms.Guna2PictureBox qPass;
         private Guna.UI2.WinForms.Guna2PictureBox qEmail;
         private Guna.UI2.WinForms.Guna2PictureBox qPhone;
         private Guna.UI2.WinForms.Guna2PictureBox qName;
         private Guna.UI2.WinForms.Guna2PictureBox qAccount;
         private Guna.UI2.WinForms.Guna2PictureBox qCountury;
+        public Guna.UI2.WinForms.Guna2ComboBox cbCountury;
     }
 }

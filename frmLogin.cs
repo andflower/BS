@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BS
@@ -22,6 +14,8 @@ namespace BS
             InitializeComponent();
             GetAssemblyInfo();
         }
+
+        private string mode = "Exit";
 
         private void GetAssemblyInfo()
         {
@@ -61,23 +55,40 @@ namespace BS
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            frmMain frm = new frmMain();
-            frm.Show();
+            string userName = txtUser.Text;
+            string userPass = txtPass.Text;
+
+            if (MainClass.IsValidUser(userName, userPass) == false)
+            {
+                guna2MessageDialog1.Show("알수 없는 아이디, 패스워드입니다.");
+                MainClass.isLogined = false;
+            }
+            else
+            {
+                MainClass.isLogined = true;
+                guna2MessageDialog1.Show("로그인 하였습니다.");
+                this.Close();
+            }
+
+            if (ActiveControl == txtUser)
+            {
+                txtUser.Focus();
+                txtUser.SelectionStart = txtUser.Text.Length;
+                //txtPass.Select(txtPass.Text.Length, 0);
+
+
+            }
+            else if (ActiveControl == txtPass)
+            {
+                txtPass.Focus();
+                txtPass.SelectionStart = txtPass.Text.Length;
+                //txtPass.Select(txtPass.Text.Length, 0);
+            }
         }
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            appExit();
-        }
-
-        private void txtUser_KeyDown(object sender, KeyEventArgs e)
-        {
-            textBox_keyDown(sender, e);
-        }
-
-        private void txtPass_KeyDown(object sender, KeyEventArgs e)
-        {
-            textBox_keyDown(sender, e);
+            Application.Exit();
         }
 
         private void textBox_keyDown(object sender, KeyEventArgs e)
@@ -88,13 +99,15 @@ namespace BS
             }
             else if (e.KeyCode == Keys.Escape)
             {
-                appExit();
+                if (mode.Equals("Exit"))
+                {
+                    Application.Exit();
+                }
+                else if (this.mode.Equals("Close"))
+                {
+                    this.Close();
+                }
             }
-        }
-
-        private void appExit()
-        {
-            Application.Exit();
         }
     }
 }

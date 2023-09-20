@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections;
-using System.Windows.Forms;
-using Guna.UI2.WinForms;
-using System.Runtime.CompilerServices;
-using System.Drawing;
-using System.Web.UI;
-using System.Text.RegularExpressions;
-using Control = System.Windows.Forms.Control;
-using System.Diagnostics;
-using System.ComponentModel;
-using System.IO;
+﻿using Guna.UI2.WinForms;
 using PhoneNumbers;
-using BS.Model;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Control = System.Windows.Forms.Control;
 
 namespace BS
 {
@@ -26,7 +19,7 @@ namespace BS
         public static string MsgCaption;
         public static string conString;
         public static SqlConnection con = new SqlConnection(conString);
-
+        public static bool isLogined = false;
         /// <summary>
         /// DataTable 가져오기
         /// </summary>
@@ -73,7 +66,7 @@ namespace BS
             string qry =
                 @"SELECT * FROM TABLE_USER
                   WHERE USER_ACCOUNT = '" + user + "' " +
-                  "AND USER_PASSWORD'" + pass + "';";
+                  "AND USER_PASSWORD = '" + pass + "';";
             DataTable dt = GetData(qry);
 
             if (dt.Rows.Count > 0)
@@ -98,7 +91,6 @@ namespace BS
             {
                 SqlCommand cmd = new SqlCommand(qry, con);
 
-                
                 foreach (DictionaryEntry deItem in ht)
                 {
                     //
@@ -150,7 +142,7 @@ namespace BS
 
             SqlCommand cmd = new SqlCommand(qry, con);
             DataTable dt = GetData(qry, CommandType.Text);
-            
+
             gv.DataSource = dt;
         }
 
@@ -258,7 +250,6 @@ namespace BS
             Form Background = new Form();
             using (Model)
             {
-                
                 Background.StartPosition = FormStartPosition.Manual;
                 Background.FormBorderStyle = FormBorderStyle.None;
                 Background.Opacity = 0.5d;
@@ -273,20 +264,57 @@ namespace BS
             }
         }
 
+        public static void BlurBackground(Form Model, Form ownerForm)
+        {
+            Form Background = new Form();
+            using (Model)
+            {
+                Background.StartPosition = FormStartPosition.Manual;
+                Background.FormBorderStyle = FormBorderStyle.None;
+                Background.Opacity = 0.5d;
+                Background.BackColor = Color.Black;
+                Background.Size = frmMain.Instance.Size;
+                Background.Location = frmMain.Instance.Location;
+                Background.ShowInTaskbar = false;
+                Background.Show(ownerForm);
+                Model.Owner = Background;
+                Model.ShowDialog(Background);
+                Background.Dispose();
+            }
+        }
+
+        public static void TransparentBackground(Form Model, Form ownerForm)
+        {
+            Form Background = new Form();
+            using (Model)
+            {
+                Background.StartPosition = FormStartPosition.Manual;
+                Background.FormBorderStyle = FormBorderStyle.None;
+                Background.Opacity = 0.0d;
+                Background.BackColor = Color.Black;
+                Background.Size = ownerForm.Size;
+                Background.Location = ownerForm.Location;
+                Background.ShowInTaskbar = false;
+                Background.Show(ownerForm);
+                Model.Owner = Background;
+                Model.ShowDialog(Background);
+                Background.Dispose();
+            }
+        }
+
         /// <summary>
         /// ComboBox의 값을 데이터베이스에서 가져와 목록을 만들어줌
         /// </summary>
         /// <param name="qry"></param>
         /// <param name="cb"></param>
         /// <param name="index">default값 -1</param>
-        public static void CBFill(string qry, ComboBox cb, int index = -1)
+        public static void CBFill(string qry, ComboBox cb, string member, int index = -1)
         {
             DataTable dt = GetData(qry, CommandType.Text);
 
-            cb.DisplayMember = "name";
+            cb.DisplayMember = member;
             cb.ValueMember = "id";
             cb.DataSource = dt;
-            //cb.SelectedIndex = -1;
             cb.SelectedIndex = index;
         }
 
@@ -310,7 +338,7 @@ namespace BS
 
             List<string> columnNames = new List<string>();
 
-            foreach(DataRow item in dt.Rows)
+            foreach (DataRow item in dt.Rows)
             {
                 columnNames.Add("@" + item["COLUMN_NAME"].ToString());
             }
@@ -368,7 +396,7 @@ namespace BS
                 // debugging
                 if (sqlResult > 0)
                 {
-                    MessageBox.Show("INSERT문이 성공하였습니다.");
+                    //msgDialog.Show("INSERT문이 성공하였습니다.");
                 }
             }
         }
@@ -397,6 +425,12 @@ namespace BS
             SqlCommand cmd = new SqlCommand();
             int sqlResult = 0;
             string prefixColumnName = tableName.Replace("TABLE_", "") + "_";
+
+            Guna2MessageDialog dialog = new Guna2MessageDialog();
+            dialog.Parent = frm;
+            dialog.Caption = "결제 시스템";
+            dialog.Style = MessageDialogStyle.Dark;
+            dialog.Icon = MessageDialogIcon.None;
 
             switch (type)
             {
@@ -451,8 +485,8 @@ namespace BS
                 {
                     updateStatements.Add($"{colName} = @{colName}");
                 }
-                query += string.Join(", ", updateStatements) + $" WHERE ID = @ID"; // 예시로 ID 기반 업데이트
-                cmd.Parameters.AddWithValue("@ID", id);
+                query += string.Join(", ", updateStatements) + $" WHERE {prefixColumnName}ID = @{prefixColumnName}ID"; // 예시로 ID 기반 업데이트
+                cmd.Parameters.AddWithValue($"@{prefixColumnName}ID", id);
             }
 
             cmd.CommandText = query;
@@ -466,9 +500,21 @@ namespace BS
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"오류 발생: {ex.Message}");
+                dialog.Show($"오류 발생: {ex.Message}");
             }
 
+            if (type == eumType.Insert)
+            {
+                dialog.Show("저장하였습니다");
+            }
+            else if (type == eumType.Delete)
+            {
+                dialog.Show("삭제하였습니다.");
+            }
+            else if (type == eumType.Update)
+            {
+                dialog.Show("수정하였습니다.");
+            }
             return sqlResult;
         }
 
@@ -490,6 +536,8 @@ namespace BS
             SqlDataAdapter selectDa = new SqlDataAdapter(selectCmd);
             DataTable dtData = new DataTable();
             selectDa.Fill(dtData);
+
+            //msgDialog.Parent = frm;
 
             // Check if data was found for the given ID
             if (dtData.Rows.Count > 0)
@@ -522,10 +570,11 @@ namespace BS
                         }
                     }
                 }
+                //msgDialog.Show("저장하였습니다.");
             }
             else
             {
-                MessageBox.Show("해당 ID에 대한 데이터를 찾을 수 없습니다.");
+                //msgDialog.Show("해당 ID에 대한 데이터를 찾을 수 없습니다.");
             }
         }
 
@@ -541,6 +590,7 @@ namespace BS
             SqlDataAdapter columnDa = new SqlDataAdapter(columnCmd);
             DataTable dtColumns = new DataTable();
             columnDa.Fill(dtColumns);
+            //msgDialog.Parent = frm;
 
             if (dtColumns.Rows.Count == 0)
             {
@@ -635,12 +685,12 @@ namespace BS
 
                 if (sqlResult > 0)
                 {
-                    MessageBox.Show($"{type} 작업이 성공하였습니다.");
+                    //msgDialog.Show($"{type} 작업이 성공하였습니다.");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"오류 발생: {ex.Message}");
+                //msgDialog.Show($"오류 발생: {ex.Message}");
             }
 
             return sqlResult;
@@ -660,6 +710,7 @@ namespace BS
             SqlDataAdapter mainDa = new SqlDataAdapter(mainCmd);
             DataTable dtData = new DataTable();
             mainDa.Fill(dtData);
+            //msgDialog.Parent = frm;
 
             if (dtData.Rows.Count > 0)
             {
@@ -688,10 +739,11 @@ namespace BS
                         }
                     }
                 }
+                //msgDialog.Show("수정하였습니다.");
             }
             else
             {
-                MessageBox.Show("해당 ID에 대한 데이터를 찾을 수 없습니다.");
+                //msgDialog.Show("해당 ID에 대한 데이터를 찾을 수 없습니다.");
             }
         }
 
@@ -727,7 +779,7 @@ namespace BS
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                //msgDialog.Show(ex.ToString());
                 con.Close();
             }
         }
@@ -741,7 +793,7 @@ namespace BS
         /// <param name="px"></param>
         /// <param name="py"></param>
         /// <returns></returns>
-        public static bool Validate(Form F, Color col, Font font, int px, int py, string alpha2_Code, string numeric_Code)
+        public static bool Validate(Form F, eumType type, Color col, Font font, int px, int py, string alpha2_Code, string numeric_Code)
         {
             bool isValid = true;
             int count = 0;
@@ -751,7 +803,7 @@ namespace BS
             Font lblFont = font;
             Color vColor = col;
 
-        var dynamicLabels = F.Controls.OfType<Label>().Where(c => c.Tag != null && c.Tag.ToString() == "remove").ToList();
+            var dynamicLabels = F.Controls.OfType<Label>().Where(c => c.Tag != null && c.Tag.ToString() == "remove").ToList();
             foreach (var lbl in dynamicLabels)
             {
                 F.Controls.Remove(lbl);
@@ -1032,7 +1084,7 @@ namespace BS
                                 //Match match = regex.Match(t.Text);
                                 //if (match.Success) { }
 
-                                if (IsValPhoneNumber(t, alpha2_Code, numeric_Code)) { }
+                                if (IsValPhoneNumber(t, type, alpha2_Code, numeric_Code)) { }
                                 else
                                 {
                                     string cname = t.Tag.ToString() + "nlbl" + c.Name;
@@ -1078,7 +1130,7 @@ namespace BS
                                 if (match.Success && dt != new DateTime(0001, 1, 1).Date)
                                 {
                                     int len = t.Text.Length;
-                                    if(len != 10)
+                                    if (len != 10)
                                     {
                                         string cname = t.Tag.ToString() + "lbl" + c.Name;
                                         lbl.Name = cname;
@@ -1160,7 +1212,7 @@ namespace BS
             return isValid;
         }
 
-        private static bool IsValPhoneNumber(Guna2TextBox t, string alpha2_Code, string numeric_Code)
+        private static bool IsValPhoneNumber(Guna2TextBox t, eumType type, string alpha2_Code, string numeric_Code)
         {
             bool isValPhoneNumber = false;
             PhoneNumberUtil phoneUtil = PhoneNumberUtil.GetInstance();
@@ -1168,7 +1220,11 @@ namespace BS
             try
             {
                 PhoneNumber number = phoneUtil.Parse(t.Text, alpha2_Code);
-                t.Text = phoneUtil.Format(number, PhoneNumberFormat.INTERNATIONAL);
+                if (type == eumType.Insert || type == eumType.Update)
+                {
+                    t.Text = phoneUtil.Format(number, PhoneNumberFormat.INTERNATIONAL);
+                }
+
                 isValPhoneNumber = true;
             }
             catch (NumberParseException)
@@ -1179,7 +1235,7 @@ namespace BS
             return isValPhoneNumber;
         }
 
-        public static void Enable_Reset(Form p)
+        public static void Reset_All(Form p)
         {
             foreach (Control c in p.Controls)
             {
@@ -1243,7 +1299,7 @@ namespace BS
         public static string USER
         {
             get { return user; }
-            private set { user = value;}
+            private set { user = value; }
         }
 
         public static Image img;

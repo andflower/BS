@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using BS.Model;
+using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using BS.Model;
 
 namespace BS.View
 {
@@ -50,27 +44,18 @@ namespace BS.View
 
         public async override void btnViewAdd_Click(object sender, EventArgs e)
         {
-            //MainClass.BlurBackground(new frmUserAdd());
-            
             await Task.Run(() =>
             {
-                MainClass.BlurBackground(new frmUserAdd());
-                LoadData();
+                frmUserAdd UserAdd = new frmUserAdd();
+                MainClass.BlurBackground(UserAdd);
             });
+            LoadData();
         }
 
         public override void txtSearch_TextChanged(object sender, EventArgs e)
         {
             txtSearchFunc();
         }
-
-
-        /*public override void BSdgv_DoubleClick(object sender, EventArgs e)
-        {
-            int id = Convert.ToInt32(BSdgv.CurrentRow.Cells[1].Value);
-            new frmUserAdd() { editID = id }.Show();
-            LoadData();
-        }*/
 
         public override void txtSearch_IconRightClick(object sender, EventArgs e)
         {
@@ -82,10 +67,18 @@ namespace BS.View
             LoadData();
         }
 
-        private void GunaDGVuser_DoubleClick(object sender, EventArgs e)
+        private async void GunaDGVuser_DoubleClick(object sender, EventArgs e)
         {
             int id = Convert.ToInt32(GunaDGVuser.CurrentRow.Cells[1].Value);
-            new frmUserAdd() { editID = id }.Show();
+            await Task.Run(() =>
+            {
+                frmUserAdd UserAdd = new frmUserAdd()
+                {
+                    editID = id
+                };
+                MainClass.BlurBackground(UserAdd);
+            });
+
             LoadData();
         }
     }

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BS
@@ -17,6 +14,11 @@ namespace BS
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new frmLogin());
+            if (MainClass.isLogined == true)
+            {
+                Application.Run(new frmMain());
+            }
+;
         }
     }
 }

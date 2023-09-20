@@ -37,6 +37,7 @@
             this.btnLogin = new Guna.UI2.WinForms.Guna2Button();
             this.btnExit = new Guna.UI2.WinForms.Guna2Button();
             this.guna2CircleProgressBar1 = new Guna.UI2.WinForms.Guna2CircleProgressBar();
+            this.guna2MessageDialog1 = new Guna.UI2.WinForms.Guna2MessageDialog();
             this.SuspendLayout();
             // 
             // guna2BorderlessForm1
@@ -81,7 +82,7 @@
             this.txtUser.Size = new System.Drawing.Size(240, 45);
             this.txtUser.TabIndex = 0;
             this.txtUser.TextOffset = new System.Drawing.Point(15, 0);
-            this.txtUser.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUser_KeyDown);
+            this.txtUser.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox_keyDown);
             // 
             // txtPass
             // 
@@ -107,7 +108,7 @@
             this.txtPass.Size = new System.Drawing.Size(240, 45);
             this.txtPass.TabIndex = 1;
             this.txtPass.TextOffset = new System.Drawing.Point(15, 0);
-            this.txtPass.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPass_KeyDown);
+            this.txtPass.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox_keyDown);
             // 
             // label2
             // 
@@ -213,6 +214,15 @@
             this.guna2CircleProgressBar1.TabIndex = 5;
             this.guna2CircleProgressBar1.Value = 75;
             // 
+            // guna2MessageDialog1
+            // 
+            this.guna2MessageDialog1.Buttons = Guna.UI2.WinForms.MessageDialogButtons.OK;
+            this.guna2MessageDialog1.Caption = "결제 시스템";
+            this.guna2MessageDialog1.Icon = Guna.UI2.WinForms.MessageDialogIcon.None;
+            this.guna2MessageDialog1.Parent = this;
+            this.guna2MessageDialog1.Style = Guna.UI2.WinForms.MessageDialogStyle.Dark;
+            this.guna2MessageDialog1.Text = null;
+            // 
             // frmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -247,5 +257,6 @@
         private System.Windows.Forms.Label lblVersion;
         private Guna.UI2.WinForms.Guna2Button btnLogin;
         private Guna.UI2.WinForms.Guna2Button btnExit;
+        private Guna.UI2.WinForms.Guna2MessageDialog guna2MessageDialog1;
     }
 }

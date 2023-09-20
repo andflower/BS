@@ -158,7 +158,6 @@
             this.paTop.ResumeLayout(false);
             this.paBottom.ResumeLayout(false);
             this.ResumeLayout(false);
-
         }
 
         #endregion
