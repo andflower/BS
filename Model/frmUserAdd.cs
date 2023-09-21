@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace BS.Model
@@ -19,13 +20,16 @@ namespace BS.Model
         ArrayList al = new ArrayList();
         private readonly string mode = "Close";
         private MainClass.eumType enumtype;
+        string updateName;
 
         private void frmUserAdd_Load(object sender, EventArgs e)
         {
             if (editID > 0)
             {
+                
                 MainClass.AutoLoadForEdit(this, "TABLE_USER", editID);
                 enumtype = MainClass.eumType.Update;
+                updateName = txtAccount.Text;
                 GetInterNumber();
             }
             else if (editID == 0)
@@ -57,22 +61,40 @@ namespace BS.Model
             int toolTipPositionY = 5;
             Color v_color = Color.FromArgb(245, 29, 70);
             Font v_font = new Font("나눔고딕", 8F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            bool isAvailableAccount = false;
 
             string qry =
                 @"SELECT USER_ID, USER_ACCOUNT FROM TABLE_USER";
             DataTable dt = MainClass.GetData(qry, CommandType.Text);
+            
+            try
+            {
+                if ((dt.Select("[" + "USER_ACCOUNT" + "] LIKE '" + txtAccount.Text + "'"))[0][1].ToString() == updateName)
+                {
+                    isAvailableAccount = true;
+                }
+                else if ((dt.Select("[" + "USER_ACCOUNT" + "] LIKE '" + txtAccount.Text + "'"))[0][1].ToString().Length > 1)
+                {
+                    isAvailableAccount = false;
+                }
+            }
+
+            catch (IndexOutOfRangeException)
+            {
+                isAvailableAccount = true;
+            }
 
             // 입력값 형식 확인
             if (editID == 0)
             {
-                if (MainClass.Validate(this, MainClass.eumType.Insert, v_color, v_font, toolTipPositionX, toolTipPositionY, alpha2_Code, numeric_Code) == false)
+                if (MainClass.Validate(this, MainClass.eumType.Insert, v_color, v_font, toolTipPositionX, toolTipPositionY, alpha2_Code, numeric_Code, isAvailableAccount) == false)
                 {
                     return;
                 }
             }
             else
             {
-                if (MainClass.Validate(this, MainClass.eumType.Update, v_color, v_font, toolTipPositionX, toolTipPositionY, alpha2_Code, numeric_Code) == false)
+                if (MainClass.Validate(this, MainClass.eumType.Update, v_color, v_font, toolTipPositionX, toolTipPositionY, alpha2_Code, numeric_Code, isAvailableAccount) == false)
                 {
                     return;
                 }
@@ -98,23 +120,22 @@ namespace BS.Model
             MainClass.AutoSQL(this, "TABLE_USER", MainClass.eumType.Delete, editID, al);
             editID = 0;
             MainClass.Reset_All(this);
-            //GetInterNumber(MainClass.eumType.Delete);
         }
 
         private void GetInterNumber()
         {
             string qry =
-                @"SELECT Contury_KOR, Numeric_Code, Numeric_Code, Alpha2_Code, Alpha3_Code,
-	                + Contury_KOR + '(' + Alpha3_Code + ')' AS CombinedText
-                    FROM TABLE_COUNTURY_CODE";
+                @"SELECT CONTURY_KOR, NUMERIC_CODE, ALPHA2_CODE, ALPHA3_CODE,
+	                + CONTURY_KOR + '(' + ALPHA3_CODE + ')' AS COMBINED_TEXT
+                    FROM TABLE_CONTURY_CODE";
             DataTable dt = MainClass.GetData(qry, CommandType.Text);
-            MainClass.CBFill(qry, cbCountury, "CombinedText", 25);
+            MainClass.CBFill(qry, cbCountury, "COMBINED_TEXT", 25);
 
             // 초기 선택 항목에 대한 Numeric_Code를 txtInum.Text에 설정합니다.
             if (enumtype != MainClass.eumType.Update)
             {
                 txtPhone.Text = "";
-                txtPhone.Text = numeric_Code = "+" + dt.Rows[cbCountury.SelectedIndex]["Numeric_Code"].ToString();
+                txtPhone.Text = numeric_Code = "+" + dt.Rows[cbCountury.SelectedIndex]["NUMERIC_CODE"].ToString();
             }
         }
 
@@ -124,13 +145,9 @@ namespace BS.Model
             if (cbCountury.SelectedIndex >= 0)
             {
                 DataTable dt = (DataTable)cbCountury.DataSource;
-                if (enumtype != MainClass.eumType.Update)
-                {
-                    txtPhone.Text = "";
-                    txtPhone.Text = numeric_Code = "+" + dt.Rows[cbCountury.SelectedIndex]["Numeric_Code"].ToString() + txtPhone.Text;
-
-                }
-                alpha2_Code = dt.Rows[cbCountury.SelectedIndex]["Alpha2_Code"].ToString();
+                txtPhone.Text = "";
+                txtPhone.Text = numeric_Code = "+" + dt.Rows[cbCountury.SelectedIndex]["NUMERIC_CODE"].ToString() + txtPhone.Text;
+                alpha2_Code = dt.Rows[cbCountury.SelectedIndex]["ALPHA2_CODE"].ToString();
             }
             else
             {
@@ -183,11 +200,7 @@ namespace BS.Model
 
         private void cbCountury_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (editID > 0)
-            {
-                Getalpha2_Code();
-            }
-            else if (editID == 0)
+            if (editID >= 0)
             {
                 Getalpha2_Code();
             }

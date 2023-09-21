@@ -793,7 +793,7 @@ namespace BS
         /// <param name="px"></param>
         /// <param name="py"></param>
         /// <returns></returns>
-        public static bool Validate(Form F, eumType type, Color col, Font font, int px, int py, string alpha2_Code, string numeric_Code)
+        public static bool Validate(Form F, eumType type, Color col, Font font, int px, int py, string alpha2_Code, string numeric_Code, bool isAvailableID)
         {
             bool isValid = true;
             int count = 0;
@@ -917,12 +917,15 @@ namespace BS
                             {
                                 Regex regex = new Regex(@"^([a-zA-Z]+)(([a-zA-Z0-9]{5,19})+)$");
                                 Match match = regex.Match(t.Text);
-                                if (match.Success) { }
+                                if (match.Success && isAvailableID) { }
                                 else
                                 {
                                     lbl.Name = t.Tag.ToString() + "lbl" + c.Name;
                                     lbl.Tag = "remove";
-                                    lbl.Text = "알 수 없는 아이디 형식";
+                                    if (!isAvailableID)
+                                        lbl.Text = "사용하고 있는 아이디입니다.";
+                                    else
+                                        lbl.Text = "알 수 없는 아이디 형식";
                                     lbl.ForeColor = vColor;
                                     lbl.Font = lblFont;
                                     F.Controls.Add(lbl);
