@@ -1,5 +1,6 @@
 ﻿using BS.Model;
 using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -42,16 +43,6 @@ namespace BS.View
             MainClass.LoadData(qry, GunaDGVuser, lb);
         }
 
-        public async override void btnViewAdd_Click(object sender, EventArgs e)
-        {
-            await Task.Run(() =>
-            {
-                frmUserAdd UserAdd = new frmUserAdd();
-                MainClass.BlurBackground(UserAdd, this);
-            });
-            LoadData();
-        }
-
         public override void txtSearch_TextChanged(object sender, EventArgs e)
         {
             txtSearchFunc();
@@ -67,18 +58,51 @@ namespace BS.View
             LoadData();
         }
 
-        private async void GunaDGVuser_DoubleClick(object sender, EventArgs e)
+        private BackgroundWorker worker;
+        private bool isNeededID = false;
+        int id;
+
+        public override void btnViewAdd_Click(object sender, EventArgs e)
         {
-            int id = Convert.ToInt32(GunaDGVuser.CurrentRow.Cells[1].Value);
-            await Task.Run(() =>
+            isNeededID = false;
+            AsyncForm();
+        }
+
+        private void GunaDGVuser_DoubleClick(object sender, EventArgs e)
+        {
+            isNeededID = true;
+            id = Convert.ToInt32(GunaDGVuser.CurrentRow.Cells[1].Value);
+            AsyncForm();
+        }
+
+        private void AsyncForm()
+        {
+            worker = new BackgroundWorker();
+            worker.DoWork += new DoWorkEventHandler(worker_DoWork);
+            worker.RunWorkerAsync();
+            worker.RunWorkerCompleted += worker_RunWorkerCompleted;
+        }
+
+        private void worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            frmUserAdd UserAdd = null;
+            
+            if (isNeededID)
             {
-                frmUserAdd UserAdd = new frmUserAdd()
+                UserAdd = new frmUserAdd()
                 {
                     editID = id
                 };
-                MainClass.BlurBackground(UserAdd, this);
-            });
+            }
+            else
+            {
+                UserAdd = new frmUserAdd();
+            }
+            MainClass.BlurBackground(UserAdd);
+        }
 
+        private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
             LoadData();
         }
     }
