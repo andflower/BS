@@ -47,7 +47,7 @@ namespace BS.View
             await Task.Run(() =>
             {
                 frmUserAdd UserAdd = new frmUserAdd();
-                MainClass.BlurBackground(UserAdd);
+                MainClass.BlurBackground(UserAdd, this);
             });
             LoadData();
         }
@@ -76,7 +76,7 @@ namespace BS.View
                 {
                     editID = id
                 };
-                MainClass.BlurBackground(UserAdd);
+                MainClass.BlurBackground(UserAdd, this);
             });
 
             LoadData();
