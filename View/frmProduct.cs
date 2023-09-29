@@ -1,51 +1,49 @@
 ﻿using BS.Model;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TheArtOfDevHtmlRenderer.Adapters.Entities;
 
 namespace BS.View
 {
-    public partial class frmUser : SampleView
+    public partial class frmProduct : SampleView
     {
-        public frmUser()
+        public frmProduct()
         {
             InitializeComponent();
         }
 
-        private void frmUser_Load(object sender, EventArgs e)
+        private void frmProduct_Load(object sender, EventArgs e)
         {
             LoadData();
         }
 
+        int IMAGE_COL_INDEX = 0;
+        bool currentlyAnimating = false;
+
         private void LoadData()
         {
-            // SELECT 순서는 DataGridView의 순서대로 받아야함
             string qry =
-            @"SELECT 0 '구분', USER_ID, USER_NAME, USER_ACCOUNT, USER_PASSWORD, 
-              USER_PHONE, USER_EMAIL FROM TABLE_USER
-              WHERE USER_ACCOUNT LIKE '%" + txtSearch.Text + "%'" +
-            @"OR USER_NAME LIKE '%" + txtSearch.Text + "%'" +
-            @"OR USER_PHONE LIKE '%" + txtSearch.Text + "%'" +
-            @"OR USER_EMAIL LIKE '%" + txtSearch.Text + "%'";
-
-            /*@"SELECT * FROM TABLE_USER
-                  WHERE USER_NAME LIKE '%" + txtSearch.Text + "%'";*/
-
+            @"SELECT 0 '구분', PRODUCT_ID, PRODUCT_NAME, PRODUCT_PRICE, 
+              PRODUCT_COST, PRODUCT_IMAGE FROM TABLE_PRODUCT
+              WHERE PRODUCT_NAME LIKE '%" + txtSearch.Text + "%' ORDER BY PRODUCT_ID";
+            
             MainClass.LoadData(qry, GunaDGVuser);
         }
 
         public override void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            txtSearchFunc();
+            LoadData();
         }
 
         public override void txtSearch_IconRightClick(object sender, EventArgs e)
-        {
-            txtSearchFunc();
-        }
-
-        private void txtSearchFunc()
         {
             LoadData();
         }
@@ -57,19 +55,18 @@ namespace BS.View
         public override void btnViewAdd_Click(object sender, EventArgs e)
         {
             isNeededID = false;
-            AsyncForm();
             //AsyncFormAdd();
+            AsyncForm();
         }
 
         private void GunaDGVuser_DoubleClick(object sender, EventArgs e)
         {
             isNeededID = true;
             id = Convert.ToInt32(GunaDGVuser.CurrentRow.Cells[1].Value);
-            AsyncForm();
             //AsyncFormAdd();
+            AsyncForm();
         }
 
-        #region BackgroundWorker 기반 비동기_AsyncForm
         private void AsyncForm()
         {
             worker = new BackgroundWorker();
@@ -80,54 +77,51 @@ namespace BS.View
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            frmUserAdd UserAdd = null;
-            
+            frmProductAdd ProductAdd = null;
+
             if (isNeededID)
             {
-                UserAdd = new frmUserAdd()
+                ProductAdd = new frmProductAdd()
                 {
                     editID = id
                 };
-                UserAdd.label1.Text += " 수정";
+                ProductAdd.label1.Text += " 수정";
             }
             else
             {
-                UserAdd = new frmUserAdd();
-                UserAdd.label1.Text += " 추가";
+                ProductAdd = new frmProductAdd();
+                ProductAdd.label1.Text += " 추가";
             }
-            MainClass.BlurBackground(UserAdd);
+            MainClass.BlurBackground(ProductAdd);
         }
 
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             LoadData();
         }
-        #endregion
 
-        #region async/await 기반 비동기_AsyncFormAdd
         private async void AsyncFormAdd()
         {
             Task task = Task.Factory.StartNew(() =>
             {
-                frmUserAdd UserAdd = null;
+                frmProductAdd ProductAdd = null;
 
                 if (isNeededID)
                 {
-                    UserAdd = new frmUserAdd()
+                    ProductAdd = new frmProductAdd()
                     {
                         editID = id
                     };
                 }
                 else
                 {
-                    UserAdd = new frmUserAdd();
+                    ProductAdd = new frmProductAdd();
                 }
-                MainClass.BlurBackground(UserAdd);
+                MainClass.BlurBackground(ProductAdd);
             });
 
             await task;
             LoadData();
         }
-        #endregion
     }
 }

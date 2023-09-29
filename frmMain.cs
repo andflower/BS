@@ -1,5 +1,8 @@
-﻿using BS.View;
+﻿using BS.Model;
+using BS.View;
 using System;
+using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BS
@@ -63,6 +66,13 @@ namespace BS
         {
             var View_FrmUser = new frmUser();
             AddControls(View_FrmUser);
+        }
+
+        private void btnProduct_Click(object sender, EventArgs e)
+        {
+            var View_FrmProduct = new frmProduct();
+            AddControls(View_FrmProduct);
+            
         }
     }
 }

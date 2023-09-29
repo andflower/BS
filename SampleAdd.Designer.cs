@@ -52,7 +52,7 @@
             this.paTop.Location = new System.Drawing.Point(0, 0);
             this.paTop.Name = "paTop";
             this.paTop.Size = new System.Drawing.Size(830, 100);
-            this.paTop.TabIndex = 0;
+            this.paTop.TabIndex = 1;
             // 
             // label1
             // 
@@ -83,8 +83,7 @@
             // 
             // btnDel
             // 
-            this.btnDel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDel.Animated = true;
             this.btnDel.BackColor = System.Drawing.Color.Transparent;
             this.btnDel.BorderRadius = 25;
@@ -100,7 +99,7 @@
             this.btnDel.Margin = new System.Windows.Forms.Padding(0, 20, 30, 20);
             this.btnDel.Name = "btnDel";
             this.btnDel.Size = new System.Drawing.Size(50, 50);
-            this.btnDel.TabIndex = 5;
+            this.btnDel.TabIndex = 2;
             this.btnDel.Click += new System.EventHandler(this.btnDel_Click);
             // 
             // btnClose
@@ -121,7 +120,7 @@
             this.btnClose.Margin = new System.Windows.Forms.Padding(10, 20, 0, 20);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(110, 50);
-            this.btnClose.TabIndex = 5;
+            this.btnClose.TabIndex = 1;
             this.btnClose.Text = "닫기";
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
@@ -142,7 +141,7 @@
             this.btnSave.Margin = new System.Windows.Forms.Padding(30, 20, 10, 20);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(110, 50);
-            this.btnSave.TabIndex = 4;
+            this.btnSave.TabIndex = 0;
             this.btnSave.Text = "저장";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -158,6 +157,7 @@
             this.paTop.ResumeLayout(false);
             this.paBottom.ResumeLayout(false);
             this.ResumeLayout(false);
+
         }
 
         #endregion

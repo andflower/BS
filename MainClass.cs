@@ -1,4 +1,7 @@
-﻿using Guna.UI2.WinForms;
+﻿using DevExpress.ClipboardSource.SpreadsheetML;
+using DevExpress.Drawing;
+using DevExpress.Utils.MVVM;
+using Guna.UI2.WinForms;
 using PhoneNumbers;
 using System;
 using System.Collections;
@@ -6,8 +9,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Control = System.Windows.Forms.Control;
@@ -20,6 +25,8 @@ namespace BS
         public static string conString;
         public static SqlConnection con = new SqlConnection(conString);
         public static bool isLogined = false;
+        public static string filePath;
+
         /// <summary>
         /// DataTable 가져오기
         /// </summary>
@@ -136,41 +143,96 @@ namespace BS
         /// </summary>
         /// <param name="qry"></param>
         /// <param name="gv"></param>
+        /// <param name="lb"></param>
         public static void LoadData(string qry, DataGridView gv)
         {
-            gv.CellFormatting += new DataGridViewCellFormattingEventHandler(dgv_CellFormatting);
+            #region MessageBox setting
+            Guna2MessageDialog dialog = new Guna2MessageDialog()
+            {
+                //Parent = ,
+                Style = MessageDialogStyle.Dark,
+                Caption = "결제 시스템",
+                Icon = MessageDialogIcon.None,
+            };
+            #endregion
 
-            SqlCommand cmd = new SqlCommand(qry, con);
-            DataTable dt = GetData(qry, CommandType.Text);
+            ListBox lb = new ListBox();
+            bool isImgContained = false;
 
-            gv.DataSource = dt;
-        }
+            foreach (DataGridViewColumn col in gv.Columns)
+            {
+                lb.Items.Add(gv.Columns[col.Name]);
+            }
 
-        /// <summary>
-        /// ListBox를 정해야 되는 경우 ListBox 포함
-        /// ListBox를 정하지 않는 경우 ListBox 미포함
-        /// </summary>
-        /// <param name="qry"></param>
-        /// <param name="gv"></param>
-        /// <param name="lb"></param>
-        public static void LoadData(string qry, DataGridView gv, ListBox lb)
-        {
             gv.CellFormatting += new DataGridViewCellFormattingEventHandler(dgv_CellFormatting);
             try
             {
                 DataTable dt = GetData(qry, CommandType.Text);
+                DataTable dtCloned = dt.Clone();
+
+                // GIF 동적 이미지
+                for (int i = 0; i < lb.Items.Count; ++i)
+                {
+                    string colName = ((DataGridViewColumn)lb.Items[i]).Name;
+
+                    if (colName.Equals("dgvImage"))
+                    {
+                        // 원하는 Type으로 변경한다.
+                        dtCloned.Columns[i].DataType = typeof(Image);
+
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            // 임시 Table의 원본 DataRow내용을 가져온다.
+                            DataRow newRow = dtCloned.NewRow();
+                            for (int j = 0; j < dt.Columns.Count; j++)
+                            {
+                                if (j == i) // 이미지 열의 경우
+                                {
+                                    byte[] imageBytes = (byte[])row[i];
+                                    using (MemoryStream ms = new MemoryStream(imageBytes))
+                                    {
+                                        Image image = Image.FromStream(ms);
+                                        newRow[i] = image;
+                                    }
+                                }
+                                else
+                                {
+                                    newRow[j] = row[j];
+                                }
+                            }
+                            dtCloned.Rows.Add(newRow);
+                        }
+
+                        isImgContained = true;
+                    }
+                }
 
                 for (int i = 0; i < lb.Items.Count; ++i)
                 {
-                    string colName1 = ((DataGridViewColumn)lb.Items[i]).Name;
-                    gv.Columns[colName1].DataPropertyName = dt.Columns[i].ToString();
+                    string colName = ((DataGridViewColumn)lb.Items[i]).Name;
+                    
+                    gv.Columns[colName].DataPropertyName = dt.Columns[i].ToString();
                 }
 
-                gv.DataSource = dt;
+                // TODO : 현재 동적 IMG는 가능하나 코드가 이중으로 IMAGE를 넣는 것으로 최적화 필요함
+                if (isImgContained)
+                {
+                    gv.DataSource = dtCloned;
+                    for (int i = 0; i < dt.Rows.Count; ++i)
+                    {
+                        byte[] imageByteArray = (byte[])(dt.Rows[i]["PRODUCT_IMAGE"]);
+                        gv.Rows[i].Cells["dgvImage"].ValueType = typeof(Image);
+                        gv.Rows[i].Cells["dgvImage"].Value = (Image.FromStream(new MemoryStream(imageByteArray)));
+                    }
+                }
+                else
+                {
+                    gv.DataSource = dt;
+                }
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.ToString());
+                dialog.Show(e.ToString());
                 con.Close();
             }
         }
@@ -183,8 +245,9 @@ namespace BS
         private static void dgv_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             int count = 0;
-            Guna.UI2.WinForms.Guna2DataGridView dgv = (Guna.UI2.WinForms.Guna2DataGridView)sender;
+            Guna.UI2.WinForms.Guna2DataGridView dgv = sender as Guna.UI2.WinForms.Guna2DataGridView;
 
+            
             // dgvRow는 첫번째 열이 무조건 인덱스로 가정시에 적용 가능함
             foreach (DataGridViewRow dgvRow in dgv.Rows)
             {
@@ -426,11 +489,16 @@ namespace BS
             int sqlResult = 0;
             string prefixColumnName = tableName.Replace("TABLE_", "") + "_";
 
-            Guna2MessageDialog dialog = new Guna2MessageDialog();
-            dialog.Parent = frm;
-            dialog.Caption = "결제 시스템";
-            dialog.Style = MessageDialogStyle.Dark;
-            dialog.Icon = MessageDialogIcon.None;
+            #region MessageBox setting
+            Guna2MessageDialog dialog = new Guna2MessageDialog()
+            {
+                Parent = frm,
+                Style = MessageDialogStyle.Dark,
+                Caption = "결제 시스템",
+                Icon = MessageDialogIcon.None
+            };
+            #endregion
+
 
             switch (type)
             {
@@ -454,19 +522,30 @@ namespace BS
             {
                 if (!ignoredColumns.Contains(c.Name))
                 {
+                    string colName = "";
+                    object colValue = "";
+
                     if (c is Guna2TextBox)
                     {
                         Guna2TextBox t = c as Guna2TextBox;
-                        string colName = prefixColumnName + t.Name.Replace("txt", "").ToUpper();
-                        string colValue = t.Text;
-                        columnNames.Add($"{colName}");
-                        cmd.Parameters.AddWithValue("@" + colName, colValue);
+                        colName = prefixColumnName + t.Name.Replace("txt", "").ToUpper();
+                        colValue = t.Text.Replace(",", "");
                     }
                     else if (c is Guna2ComboBox)
                     {
                         Guna2ComboBox cb = c as Guna2ComboBox;
-                        string colName = prefixColumnName + cb.Name.Replace("cb", "").ToUpper();
-                        string colValue = cb.Text;
+                        colName = prefixColumnName + cb.Name.Replace("cb", "").ToUpper();
+                        colValue = cb.Text.Replace(",", "");
+                    }
+                    else if (c is Guna2PictureBox && c.Tag != null)
+                    {
+                        Guna2PictureBox pb = c as Guna2PictureBox;
+                        colName = prefixColumnName + pb.Name.Replace("pb", "").ToUpper();
+                        byte[] imageByteArray = File.ReadAllBytes(filePath);
+                        colValue = imageByteArray;
+                    }
+                    if (c.Tag != null)
+                    {
                         columnNames.Add($"{colName}");
                         cmd.Parameters.AddWithValue("@" + colName, colValue);
                     }
@@ -497,24 +576,25 @@ namespace BS
                 con.Open();
                 sqlResult = cmd.ExecuteNonQuery();
                 con.Close();
+
+                if (type == eumType.Insert)
+                {
+                    dialog.Show("저장하였습니다");
+                }
+                else if (type == eumType.Delete)
+                {
+                    dialog.Show("삭제하였습니다.");
+                }
+                else if (type == eumType.Update)
+                {
+                    dialog.Show("수정하였습니다.");
+                }
             }
             catch (Exception ex)
             {
                 dialog.Show($"오류 발생: {ex.Message}");
             }
 
-            if (type == eumType.Insert)
-            {
-                dialog.Show("저장하였습니다");
-            }
-            else if (type == eumType.Delete)
-            {
-                dialog.Show("삭제하였습니다.");
-            }
-            else if (type == eumType.Update)
-            {
-                dialog.Show("수정하였습니다.");
-            }
             return sqlResult;
         }
 
@@ -547,25 +627,41 @@ namespace BS
                 // Loop through the form controls and set values based on column names
                 foreach (Control control in frm.Controls)
                 {
-                    if (control is Guna2TextBox || control is Guna2ComboBox)
+                    if (control is Guna2TextBox || control is Guna2ComboBox || control is Guna2PictureBox)
                     {
                         string columnName = "";
                         if (control is Guna2TextBox)
                             columnName = tableName.Replace("TABLE_", "") + "_" + control.Name.Trim().Replace("txt", "").ToUpper();
                         else if (control is Guna2ComboBox)
                             columnName = tableName + "_" + control.Name.Trim().Replace("cb", "").ToUpper();
+                        else if (control is Guna2PictureBox && control.Tag != null)
+                            columnName = tableName.Replace("TABLE_", "") + "_" + control.Name.Trim().Replace("pb", "").ToUpper();
+                            
                         if (dtData.Columns.Contains(columnName))
                         {
                             // Set the value based on the data type
                             if (control is Guna2TextBox)
                             {
                                 Guna2TextBox textBox = control as Guna2TextBox;
-                                textBox.Text = dataRow[columnName].ToString();
+                                if (control.Tag.ToString() == "n")
+                                    textBox.Text = Convert.ToInt64(dataRow[columnName].ToString()).ToString("N0");
+                                else
+                                    textBox.Text = dataRow[columnName].ToString();
                             }
                             else if (control is Guna2ComboBox)
                             {
                                 Guna2ComboBox comboBox = control as Guna2ComboBox;
-                                comboBox.Text = dataRow[columnName].ToString();
+                                if (control.Tag.ToString() == "n")
+                                    comboBox.Text = Convert.ToInt64(dataRow[columnName].ToString()).ToString("N0");
+                                else
+                                    comboBox.Text = dataRow[columnName].ToString();
+                            }
+                            else if (control is Guna2PictureBox && control.Tag != null)
+                            {
+                                Guna2PictureBox pb = control as Guna2PictureBox;
+                                byte[] imageByteArray = (byte[])(dataRow[columnName]);
+
+                                pb.Image = Image.FromStream(new MemoryStream(imageByteArray));
                             }
                         }
                     }
@@ -580,6 +676,16 @@ namespace BS
 
         public static int AutoSQL2(Form frm, string mainTable, string detailTable, DataGridView gv, int id, eumType type)
         {
+            #region MessageBox setting
+            Guna2MessageDialog dialog = new Guna2MessageDialog()
+            {
+                Parent = frm,
+                Style = MessageDialogStyle.Dark,
+                Caption = "결제 시스템",
+                Icon = MessageDialogIcon.None
+            };
+            #endregion
+
             SqlCommand cmd = new SqlCommand();
             int sqlResult = 0;
 
@@ -590,11 +696,10 @@ namespace BS
             SqlDataAdapter columnDa = new SqlDataAdapter(columnCmd);
             DataTable dtColumns = new DataTable();
             columnDa.Fill(dtColumns);
-            //msgDialog.Parent = frm;
 
             if (dtColumns.Rows.Count == 0)
             {
-                MessageBox.Show($"테이블 '{mainTable}'의 열을 찾을 수 없습니다.");
+                dialog.Show($"테이블 '{mainTable}'의 열을 찾을 수 없습니다.");
                 return sqlResult;
             }
 
@@ -690,7 +795,7 @@ namespace BS
             }
             catch (Exception ex)
             {
-                //msgDialog.Show($"오류 발생: {ex.Message}");
+                dialog.Show($" Exception : {ex.Message}");
             }
 
             return sqlResult;
@@ -698,6 +803,16 @@ namespace BS
 
         public static void AutoLoadForEdit2(Form frm, string mainTable, string detailQuery, DataGridView gv, int id)
         {
+            #region MessageBox setting
+            Guna2MessageDialog dialog = new Guna2MessageDialog()
+            {
+                Parent = frm,
+                Style = MessageDialogStyle.Dark,
+                Caption = "결제 시스템",
+                Icon = MessageDialogIcon.None
+            };
+            #endregion
+
             string mainSelectQuery =
                 $"SELECT {mainTable}.*, {detailQuery} " +
                 $"FROM {mainTable} " +
@@ -743,7 +858,7 @@ namespace BS
             }
             else
             {
-                //msgDialog.Show("해당 ID에 대한 데이터를 찾을 수 없습니다.");
+                dialog.Show("해당 ID에 대한 데이터를 찾을 수 없습니다.");
             }
         }
 
@@ -1041,7 +1156,7 @@ namespace BS
                             if (t.Tag.ToString() == "n")
                             {
                                 Regex regex = new Regex(@"^-?[0-9][0-9,\.]+$");
-                                Match match = regex.Match(t.Text);
+                                Match match = regex.Match(t.Text.Replace(",", ""));
                                 if (match.Success) { }
                                 else
                                 {
@@ -1295,6 +1410,27 @@ namespace BS
                     mt.Text = "";
                 }
             }
+        }
+
+        public static async Task BrowsePicture(Guna2PictureBox pbImage)
+        {
+            await Task.Run(() =>
+            {
+                OpenFileDialog ofd = new OpenFileDialog()
+                {
+                    Filter = "Images(*.BMP; *.JPG; *.PNG; *.GIF) | *.BMP; *.JPG; *.PNG; *.GIF"
+                };
+                DialogResult dr = ofd.ShowDialog(pbImage.Parent);
+                if (dr == DialogResult.OK)
+                {
+                    filePath = ofd.FileName;
+                    pbImage.Image = new Bitmap(filePath);
+                }
+                else
+                {
+                    return;
+                }
+            });
         }
 
         public static string user;

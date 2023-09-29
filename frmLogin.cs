@@ -75,8 +75,6 @@ namespace BS
                 txtUser.Focus();
                 txtUser.SelectionStart = txtUser.Text.Length;
                 //txtPass.Select(txtPass.Text.Length, 0);
-
-
             }
             else if (ActiveControl == txtPass)
             {

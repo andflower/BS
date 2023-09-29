@@ -21,12 +21,12 @@ namespace BS.Model
         private readonly string mode = "Close";
         private MainClass.eumType enumtype;
         string updateName;
+        string tableName;
 
         private void frmUserAdd_Load(object sender, EventArgs e)
         {
             if (editID > 0)
             {
-                
                 MainClass.AutoLoadForEdit(this, "TABLE_USER", editID);
                 enumtype = MainClass.eumType.Update;
                 updateName = txtAccount.Text;
@@ -47,8 +47,10 @@ namespace BS.Model
 
             al.Add(cbCountury.Name);
 
+            tableName = "TABLE_" + this.Name.Replace("frm", "").Replace("Add", "").ToUpper();
             // bug
             this.btnDel.Location = new System.Drawing.Point(500, 20);
+
             ActiveControl = txtAccount;
 
             // ComboBox의 SelectedIndexChanged 이벤트를 핸들링합니다.
@@ -62,6 +64,7 @@ namespace BS.Model
             Color v_color = Color.FromArgb(245, 29, 70);
             Font v_font = new Font("나눔고딕", 8F, FontStyle.Bold, GraphicsUnit.Point, 129);
             bool isAvailableAccount = false;
+            string tableName = "TABLE_" + this.Name.Replace("frm", "").Replace("Add", "").ToUpper();
 
             string qry =
                 @"SELECT USER_ID, USER_ACCOUNT FROM TABLE_USER";
@@ -103,12 +106,12 @@ namespace BS.Model
             // Save
             if (editID == 0)
             {
-                MainClass.AutoSQL(this, "TABLE_USER", MainClass.eumType.Insert, editID, al);
+                MainClass.AutoSQL(this, tableName, MainClass.eumType.Insert, editID, al);
             }
 
             else
             {
-                MainClass.AutoSQL(this, "TABLE_USER", MainClass.eumType.Update, editID, al);
+                MainClass.AutoSQL(this, tableName, MainClass.eumType.Update, editID, al);
             }
 
 
@@ -117,7 +120,7 @@ namespace BS.Model
 
         public override void btnDel_Click(object sender, EventArgs e)
         {
-            MainClass.AutoSQL(this, "TABLE_USER", MainClass.eumType.Delete, editID, al);
+            MainClass.AutoSQL(this, tableName, MainClass.eumType.Delete, editID, al);
             editID = 0;
             MainClass.Reset_All(this);
         }

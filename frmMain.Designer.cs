@@ -375,6 +375,7 @@
             this.btnProduct.Text = "상품";
             this.btnProduct.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btnProduct.TextOffset = new System.Drawing.Point(10, 0);
+            this.btnProduct.Click += new System.EventHandler(this.btnProduct_Click);
             // 
             // btnDashboard
             // 

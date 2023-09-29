@@ -1,6 +1,6 @@
 ﻿namespace BS.View
 {
-    partial class frmUser
+    partial class frmProduct
     {
         /// <summary>
         /// Required designer variable.
@@ -30,24 +30,39 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.GunaDGVuser = new Guna.UI2.WinForms.Guna2DataGridView();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.GunaDGVuser = new BS.AnimatedDataGridView();
             this.dgvID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgvUserID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvProductID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgvAccount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgvPass = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgvPhone = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgvEmail = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvImage = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataLayoutControl1 = new DevExpress.XtraDataLayout.DataLayoutControl();
+            this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
             this.paTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnViewAdd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GunaDGVuser)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataLayoutControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
             this.SuspendLayout();
+            // 
+            // paTop
+            // 
+            this.paTop.Controls.Add(this.dataLayoutControl1);
+            this.paTop.Controls.SetChildIndex(this.lblContext, 0);
+            this.paTop.Controls.SetChildIndex(this.txtSearch, 0);
+            this.paTop.Controls.SetChildIndex(this.lblSearch, 0);
+            this.paTop.Controls.SetChildIndex(this.btnViewAdd, 0);
+            this.paTop.Controls.SetChildIndex(this.dataLayoutControl1, 0);
             // 
             // lblContext
             // 
-            this.lblContext.Text = "사용자 목록";
+            this.lblContext.Text = "상품 목록";
             // 
             // txtSearch
             // 
@@ -84,7 +99,7 @@
             this.GunaDGVuser.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(28)))), ((int)(((byte)(36)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold);
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DimGray;
@@ -94,20 +109,19 @@
             this.GunaDGVuser.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.GunaDGVuser.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgvID,
-            this.dgvUserID,
+            this.dgvProductID,
             this.dgvName,
-            this.dgvAccount,
-            this.dgvPass,
-            this.dgvPhone,
-            this.dgvEmail});
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(28)))), ((int)(((byte)(36)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(43)))), ((int)(((byte)(54)))));
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.GunaDGVuser.DefaultCellStyle = dataGridViewCellStyle3;
+            this.dgvPrice,
+            this.dgvCost,
+            this.dgvImage});
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(28)))), ((int)(((byte)(36)))));
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(43)))), ((int)(((byte)(54)))));
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.GunaDGVuser.DefaultCellStyle = dataGridViewCellStyle6;
             this.GunaDGVuser.EnableHeadersVisualStyles = false;
             this.GunaDGVuser.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(43)))), ((int)(((byte)(54)))));
             this.GunaDGVuser.Location = new System.Drawing.Point(39, 250);
@@ -115,20 +129,20 @@
             this.GunaDGVuser.Name = "GunaDGVuser";
             this.GunaDGVuser.ReadOnly = true;
             this.GunaDGVuser.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(28)))), ((int)(((byte)(36)))));
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(28)))), ((int)(((byte)(36)))));
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.GunaDGVuser.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(28)))), ((int)(((byte)(36)))));
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(28)))), ((int)(((byte)(36)))));
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.GunaDGVuser.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.GunaDGVuser.RowHeadersVisible = false;
             this.GunaDGVuser.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.GunaDGVuser.RowTemplate.Height = 23;
+            this.GunaDGVuser.RowTemplate.Height = 60;
             this.GunaDGVuser.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.GunaDGVuser.Size = new System.Drawing.Size(1100, 500);
-            this.GunaDGVuser.TabIndex = 2;
+            this.GunaDGVuser.TabIndex = 3;
             this.GunaDGVuser.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.White;
             this.GunaDGVuser.ThemeStyle.AlternatingRowsStyle.Font = null;
             this.GunaDGVuser.ThemeStyle.AlternatingRowsStyle.ForeColor = System.Drawing.Color.White;
@@ -147,7 +161,7 @@
             this.GunaDGVuser.ThemeStyle.RowsStyle.BorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.GunaDGVuser.ThemeStyle.RowsStyle.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.GunaDGVuser.ThemeStyle.RowsStyle.ForeColor = System.Drawing.Color.White;
-            this.GunaDGVuser.ThemeStyle.RowsStyle.Height = 23;
+            this.GunaDGVuser.ThemeStyle.RowsStyle.Height = 60;
             this.GunaDGVuser.ThemeStyle.RowsStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(43)))), ((int)(((byte)(54)))));
             this.GunaDGVuser.ThemeStyle.RowsStyle.SelectionForeColor = System.Drawing.Color.White;
             this.GunaDGVuser.DoubleClick += new System.EventHandler(this.GunaDGVuser_DoubleClick);
@@ -158,71 +172,97 @@
             this.dgvID.Name = "dgvID";
             this.dgvID.ReadOnly = true;
             // 
-            // dgvUserID
+            // dgvProductID
             // 
-            this.dgvUserID.HeaderText = "사용자ID";
-            this.dgvUserID.Name = "dgvUserID";
-            this.dgvUserID.ReadOnly = true;
-            this.dgvUserID.Visible = false;
+            this.dgvProductID.HeaderText = "상품ID";
+            this.dgvProductID.Name = "dgvProductID";
+            this.dgvProductID.ReadOnly = true;
+            this.dgvProductID.Visible = false;
             // 
             // dgvName
             // 
-            this.dgvName.HeaderText = "사용자명";
+            this.dgvName.HeaderText = "상품명";
             this.dgvName.Name = "dgvName";
             this.dgvName.ReadOnly = true;
             // 
-            // dgvAccount
+            // dgvPrice
             // 
-            this.dgvAccount.HeaderText = "아이디";
-            this.dgvAccount.Name = "dgvAccount";
-            this.dgvAccount.ReadOnly = true;
+            dataGridViewCellStyle3.Format = "N0";
+            dataGridViewCellStyle3.NullValue = null;
+            this.dgvPrice.DefaultCellStyle = dataGridViewCellStyle3;
+            this.dgvPrice.HeaderText = "가격";
+            this.dgvPrice.Name = "dgvPrice";
+            this.dgvPrice.ReadOnly = true;
             // 
-            // dgvPass
+            // dgvCost
             // 
-            this.dgvPass.HeaderText = "패스워드";
-            this.dgvPass.Name = "dgvPass";
-            this.dgvPass.ReadOnly = true;
-            this.dgvPass.Visible = false;
+            dataGridViewCellStyle4.Format = "N0";
+            dataGridViewCellStyle4.NullValue = null;
+            this.dgvCost.DefaultCellStyle = dataGridViewCellStyle4;
+            this.dgvCost.HeaderText = "비용";
+            this.dgvCost.Name = "dgvCost";
+            this.dgvCost.ReadOnly = true;
             // 
-            // dgvPhone
+            // dgvImage
             // 
-            this.dgvPhone.HeaderText = "연락처";
-            this.dgvPhone.Name = "dgvPhone";
-            this.dgvPhone.ReadOnly = true;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.NullValue = "System.Drawing.Image";
+            this.dgvImage.DefaultCellStyle = dataGridViewCellStyle5;
+            this.dgvImage.HeaderText = "이미지";
+            this.dgvImage.Image = global::BS.Properties.Resources.nyancat;
+            this.dgvImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.dgvImage.Name = "dgvImage";
+            this.dgvImage.ReadOnly = true;
+            this.dgvImage.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvImage.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
-            // dgvEmail
+            // dataLayoutControl1
             // 
-            this.dgvEmail.HeaderText = "이메일";
-            this.dgvEmail.Name = "dgvEmail";
-            this.dgvEmail.ReadOnly = true;
+            this.dataLayoutControl1.Location = new System.Drawing.Point(452, 65);
+            this.dataLayoutControl1.Name = "dataLayoutControl1";
+            this.dataLayoutControl1.Root = this.Root;
+            this.dataLayoutControl1.Size = new System.Drawing.Size(180, 120);
+            this.dataLayoutControl1.TabIndex = 5;
+            this.dataLayoutControl1.Text = "dataLayoutControl1";
             // 
-            // frmUser
+            // Root
+            // 
+            this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
+            this.Root.GroupBordersVisible = false;
+            this.Root.Name = "Root";
+            this.Root.Size = new System.Drawing.Size(180, 120);
+            this.Root.TextVisible = false;
+            // 
+            // frmProduct
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(1720, 1020);
             this.Controls.Add(this.GunaDGVuser);
-            this.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Name = "frmUser";
-            this.Text = "frmUser";
-            this.Load += new System.EventHandler(this.frmUser_Load);
+            this.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold);
+            this.Name = "frmProduct";
+            this.Text = "frmProduct";
+            this.Load += new System.EventHandler(this.frmProduct_Load);
             this.Controls.SetChildIndex(this.GunaDGVuser, 0);
             this.Controls.SetChildIndex(this.paTop, 0);
             this.paTop.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.btnViewAdd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GunaDGVuser)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataLayoutControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgvUserID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvProductID;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgvAccount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgvPass;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgvPhone;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgvEmail;
-        private Guna.UI2.WinForms.Guna2DataGridView GunaDGVuser;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvPrice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvCost;
+        private System.Windows.Forms.DataGridViewImageColumn dgvImage;
+        private DevExpress.XtraDataLayout.DataLayoutControl dataLayoutControl1;
+        private DevExpress.XtraLayout.LayoutControlGroup Root;
+        private AnimatedDataGridView GunaDGVuser;
     }
 }
