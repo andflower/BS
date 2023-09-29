@@ -63,7 +63,6 @@
             this.btnClose.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnClose.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnClose.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnClose.TabIndex = 1;
             // 
             // btnSave
             // 
@@ -72,7 +71,6 @@
             this.btnSave.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnSave.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnSave.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnSave.TabIndex = 0;
             // 
             // btnDel
             // 
@@ -81,8 +79,7 @@
             this.btnDel.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnDel.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnDel.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnDel.Location = new System.Drawing.Point(720, 20);
-            this.btnDel.TabIndex = 2;
+            this.btnDel.Location = new System.Drawing.Point(570, 20);
             // 
             // txtPrice
             // 
@@ -109,6 +106,7 @@
             this.txtPrice.TabIndex = 1;
             this.txtPrice.Tag = "n";
             this.txtPrice.TextOffset = new System.Drawing.Point(15, 0);
+            this.txtPrice.TextChanged += new System.EventHandler(this.txtNumber_TextChanged);
             // 
             // lblPrice
             // 
@@ -118,9 +116,9 @@
             this.lblPrice.Location = new System.Drawing.Point(49, 230);
             this.lblPrice.Margin = new System.Windows.Forms.Padding(40, 40, 3, 0);
             this.lblPrice.Name = "lblPrice";
-            this.lblPrice.Size = new System.Drawing.Size(69, 19);
+            this.lblPrice.Size = new System.Drawing.Size(96, 19);
             this.lblPrice.TabIndex = 6;
-            this.lblPrice.Text = "판매가격";
+            this.lblPrice.Text = "판매가격(원)";
             // 
             // txtName
             // 
@@ -168,9 +166,9 @@
             this.lblCost.Location = new System.Drawing.Point(319, 230);
             this.lblCost.Margin = new System.Windows.Forms.Padding(40, 30, 3, 0);
             this.lblCost.Name = "lblCost";
-            this.lblCost.Size = new System.Drawing.Size(69, 19);
+            this.lblCost.Size = new System.Drawing.Size(96, 19);
             this.lblCost.TabIndex = 7;
-            this.lblCost.Text = "제작비용";
+            this.lblCost.Text = "제작비용(원)";
             // 
             // txtCost
             // 
@@ -198,6 +196,7 @@
             this.txtCost.TabIndex = 2;
             this.txtCost.Tag = "n";
             this.txtCost.TextOffset = new System.Drawing.Point(15, 0);
+            this.txtCost.TextChanged += new System.EventHandler(this.txtNumber_TextChanged);
             // 
             // pbImage
             // 
@@ -211,7 +210,7 @@
             this.pbImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbImage.TabIndex = 15;
             this.pbImage.TabStop = false;
-            this.pbImage.Tag = "search";
+            this.pbImage.Tag = "Image";
             this.pbImage.UseTransparentBackground = true;
             // 
             // btnBrowse

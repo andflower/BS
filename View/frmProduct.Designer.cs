@@ -42,23 +42,10 @@
             this.dgvPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvImage = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dataLayoutControl1 = new DevExpress.XtraDataLayout.DataLayoutControl();
-            this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
             this.paTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnViewAdd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GunaDGVuser)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataLayoutControl1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
             this.SuspendLayout();
-            // 
-            // paTop
-            // 
-            this.paTop.Controls.Add(this.dataLayoutControl1);
-            this.paTop.Controls.SetChildIndex(this.lblContext, 0);
-            this.paTop.Controls.SetChildIndex(this.txtSearch, 0);
-            this.paTop.Controls.SetChildIndex(this.lblSearch, 0);
-            this.paTop.Controls.SetChildIndex(this.btnViewAdd, 0);
-            this.paTop.Controls.SetChildIndex(this.dataLayoutControl1, 0);
             // 
             // lblContext
             // 
@@ -190,7 +177,7 @@
             dataGridViewCellStyle3.Format = "N0";
             dataGridViewCellStyle3.NullValue = null;
             this.dgvPrice.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvPrice.HeaderText = "가격";
+            this.dgvPrice.HeaderText = "가격(원)";
             this.dgvPrice.Name = "dgvPrice";
             this.dgvPrice.ReadOnly = true;
             // 
@@ -199,7 +186,7 @@
             dataGridViewCellStyle4.Format = "N0";
             dataGridViewCellStyle4.NullValue = null;
             this.dgvCost.DefaultCellStyle = dataGridViewCellStyle4;
-            this.dgvCost.HeaderText = "비용";
+            this.dgvCost.HeaderText = "비용(원)";
             this.dgvCost.Name = "dgvCost";
             this.dgvCost.ReadOnly = true;
             // 
@@ -216,23 +203,6 @@
             this.dgvImage.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvImage.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
-            // dataLayoutControl1
-            // 
-            this.dataLayoutControl1.Location = new System.Drawing.Point(452, 65);
-            this.dataLayoutControl1.Name = "dataLayoutControl1";
-            this.dataLayoutControl1.Root = this.Root;
-            this.dataLayoutControl1.Size = new System.Drawing.Size(180, 120);
-            this.dataLayoutControl1.TabIndex = 5;
-            this.dataLayoutControl1.Text = "dataLayoutControl1";
-            // 
-            // Root
-            // 
-            this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
-            this.Root.GroupBordersVisible = false;
-            this.Root.Name = "Root";
-            this.Root.Size = new System.Drawing.Size(180, 120);
-            this.Root.TextVisible = false;
-            // 
             // frmProduct
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -248,21 +218,17 @@
             this.paTop.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.btnViewAdd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GunaDGVuser)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataLayoutControl1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
+        private AnimatedDataGridView GunaDGVuser;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvID;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvProductID;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvCost;
         private System.Windows.Forms.DataGridViewImageColumn dgvImage;
-        private DevExpress.XtraDataLayout.DataLayoutControl dataLayoutControl1;
-        private DevExpress.XtraLayout.LayoutControlGroup Root;
-        private AnimatedDataGridView GunaDGVuser;
     }
 }

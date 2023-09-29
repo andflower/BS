@@ -883,6 +883,14 @@ namespace BS
 
         public static void SrNo(Guna2DataGridView gv)
         {
+            Guna2MessageDialog dialog = new Guna2MessageDialog()
+            {
+                //Parent = ,
+                Style = MessageDialogStyle.Dark,
+                Caption = "결제 시스템",
+                Icon = MessageDialogIcon.None,
+            };
+
             try
             {
                 int count = 0;
@@ -894,7 +902,7 @@ namespace BS
             }
             catch (Exception ex)
             {
-                //msgDialog.Show(ex.ToString());
+                dialog.Show(ex.ToString());
                 con.Close();
             }
         }
@@ -1224,6 +1232,45 @@ namespace BS
                             }
                         }
 
+                        // Image
+                        if (c is Guna2PictureBox)
+                        {
+                            Guna2PictureBox t = c as Guna2PictureBox;
+                            if (t.AutoRoundedCorners == true || t.BorderRadius > 0)
+                            {
+                                rad = (int)((t.BorderRadius / 2) + 0.5);
+                                x = int.Parse(c.Location.X.ToString()) + int.Parse(rad.ToString());
+                                y = int.Parse(c.Location.Y.ToString()) + int.Parse(c.Height.ToString()) + py + 60;
+                            }
+                            else
+                            {
+                                // TOTO : 11 상수 dynamic 처리 필요
+                                x = int.Parse(c.Location.X.ToString()) - 11;
+                                y = int.Parse(c.Location.Y.ToString()) + int.Parse(c.Height.ToString()) + py + 60;
+                            }
+                            if (t.Tag.ToString() == "Image")
+                            {
+                                if (t.Image != img) { }
+                                else
+                                {
+                                    string cname = t.Tag.ToString() + "nlbl" + c.Name;
+                                    lbl.Name = cname;
+                                    lbl.Tag = "remove";
+                                    lbl.Text = "알 수 없는 이미지 형식";
+                                    lbl.ForeColor = vColor;
+                                    lbl.Font = lblFont;
+                                    lbl.AutoSize = false;
+                                    lbl.TextAlign = ContentAlignment.TopCenter;
+                                    lbl.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
+                                    F.Controls.Add(lbl);
+
+                                    lbl.Location = new Point(x, y);
+                                    lbl.Size = new Size(130, 20);
+                                    count++;
+                                }
+                            }
+                        }
+
                         // Date
                         if (c is Guna2TextBox)
                         {
@@ -1409,6 +1456,12 @@ namespace BS
                     MaskedTextBox mt = c as MaskedTextBox;
                     mt.Text = "";
                 }
+
+                if (c is PictureBox)
+                {
+                    PictureBox pb = c as PictureBox;
+                    pb.Image = null;
+                }
             }
         }
 
@@ -1425,6 +1478,7 @@ namespace BS
                 {
                     filePath = ofd.FileName;
                     pbImage.Image = new Bitmap(filePath);
+                    
                 }
                 else
                 {

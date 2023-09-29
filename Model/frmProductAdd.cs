@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Guna.UI2.WinForms;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,6 +39,7 @@ namespace BS.Model
             else if (editID == 0)
             {
                 enumtype = MainClass.eumType.Insert;
+                MainClass.img = pbImage.Image;
             }
         }
         
@@ -88,12 +90,31 @@ namespace BS.Model
             MainClass.AutoSQL(this, tableName, MainClass.eumType.Delete, editID, al);
             editID = 0;
             MainClass.Reset_All(this);
+            this.Close();
         }
 
         [STAThread]
         private async void btnBrowse_Click(object sender, EventArgs e)
         {
             await MainClass.BrowsePicture(pbImage);
+        }
+
+        private void txtNumber_TextChanged(object sender, EventArgs e)
+        {
+            Guna2TextBox t = sender as Guna2TextBox;
+            try
+            {
+                if (t.Text != "")
+                {
+                    t.Text = Convert.ToInt64(t.Text.Replace(",", "")).ToString("N0");
+                    t.SelectionStart = t.Text.Length;
+                }
+            }
+            catch (FormatException)
+            {
+                t.Focus();
+            }
+            catch (OverflowException) { }
         }
     }
 }
