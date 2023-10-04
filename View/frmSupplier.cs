@@ -1,6 +1,5 @@
 ﻿using BS.Model;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,29 +8,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using TheArtOfDevHtmlRenderer.Adapters.Entities;
 
 namespace BS.View
 {
-    public partial class frmProduct : SampleView
+    public partial class frmSupplier : SampleView
     {
-        public frmProduct()
+        public frmSupplier()
         {
             InitializeComponent();
         }
 
-        private void frmProduct_Load(object sender, EventArgs e)
+        private void frmSupplier_Load(object sender, EventArgs e)
         {
-            LoadData();
+
         }
-        
+
         private void LoadData()
         {
             string qry =
-            @"SELECT 0 '구분', PRODUCT_ID, PRODUCT_NAME, PRODUCT_PRICE, 
-              PRODUCT_COST, PRODUCT_IMAGE FROM TABLE_PRODUCT
-              WHERE PRODUCT_NAME LIKE '%" + txtSearch.Text + "%'";
-            
+            @"SELECT 0 '구분', SUPPLIER_ID, SUPPLIER_NAME, SUPPLIER_PHONE, 
+              SUPPLIER_EMAIL, SUPPLIER_ADDRESS FROM TABLE_SUPPLIER
+              WHERE SUPPLIER_NAME LIKE '%" + txtSearch.Text + "%'" +
+            @"OR SUPPLIER_PHONE LIKE '%" + txtSearch.Text + "%'" +
+            @"OR SUPPLIER_EMAIL LIKE '%" + txtSearch.Text + "%'" +
+            @"OR SUPPLIER_ADDRESS LIKE '%" + txtSearch.Text + "%' ORDER BY SUPPLIER_ID";
+
             MainClass.LoadData(qry, GunaDGVuser);
         }
 
@@ -52,15 +53,12 @@ namespace BS.View
         public override void btnViewAdd_Click(object sender, EventArgs e)
         {
             isNeededID = false;
-            //AsyncFormAdd();
             AsyncForm();
         }
 
         private void GunaDGVuser_DoubleClick(object sender, EventArgs e)
         {
-            isNeededID = true;
             id = Convert.ToInt32(GunaDGVuser.CurrentRow.Cells[1].Value);
-            //AsyncFormAdd();
             AsyncForm();
         }
 
@@ -74,50 +72,26 @@ namespace BS.View
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            frmProductAdd ProductAdd = null;
+            frmSupplierAdd SupplierAdd = null;
 
             if (isNeededID)
             {
-                ProductAdd = new frmProductAdd()
+                SupplierAdd = new frmSupplierAdd()
                 {
                     editID = id
                 };
-                ProductAdd.label1.Text += " 수정";
+                SupplierAdd.label1.Text += " 수정";
             }
             else
             {
-                ProductAdd = new frmProductAdd();
-                ProductAdd.label1.Text += " 추가";
+                SupplierAdd = new frmSupplierAdd();
+                SupplierAdd.label1.Text += " 추가";
             }
-            MainClass.BlurBackground(ProductAdd);
+            MainClass.BlurBackground(SupplierAdd);
         }
 
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            LoadData();
-        }
-
-        private async void AsyncFormAdd()
-        {
-            Task task = Task.Factory.StartNew(() =>
-            {
-                frmProductAdd ProductAdd = null;
-
-                if (isNeededID)
-                {
-                    ProductAdd = new frmProductAdd()
-                    {
-                        editID = id
-                    };
-                }
-                else
-                {
-                    ProductAdd = new frmProductAdd();
-                }
-                MainClass.BlurBackground(ProductAdd);
-            });
-
-            await task;
             LoadData();
         }
     }

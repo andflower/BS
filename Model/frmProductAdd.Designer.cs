@@ -36,9 +36,13 @@
             this.txtCost = new Guna.UI2.WinForms.Guna2TextBox();
             this.pbImage = new Guna.UI2.WinForms.Guna2PictureBox();
             this.btnBrowse = new Guna.UI2.WinForms.Guna2Button();
+            this.qPrice = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.qCost = new Guna.UI2.WinForms.Guna2PictureBox();
             this.paTop.SuspendLayout();
             this.paBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbImage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.qPrice)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.qCost)).BeginInit();
             this.SuspendLayout();
             // 
             // paTop
@@ -79,7 +83,7 @@
             this.btnDel.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnDel.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnDel.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnDel.Location = new System.Drawing.Point(570, 20);
+            this.btnDel.Location = new System.Drawing.Point(690, 20);
             // 
             // txtPrice
             // 
@@ -229,11 +233,45 @@
             this.btnBrowse.Text = "이미지찾기";
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
+            // qPrice
+            // 
+            this.qPrice.BackColor = System.Drawing.Color.Transparent;
+            this.qPrice.Image = global::BS.Properties.Resources.question;
+            this.qPrice.ImageRotate = 0F;
+            this.qPrice.Location = new System.Drawing.Point(151, 230);
+            this.qPrice.Margin = new System.Windows.Forms.Padding(3, 3, 3, 1);
+            this.qPrice.Name = "qPrice";
+            this.qPrice.Size = new System.Drawing.Size(18, 18);
+            this.qPrice.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.qPrice.TabIndex = 24;
+            this.qPrice.TabStop = false;
+            this.qPrice.UseTransparentBackground = true;
+            this.qPrice.MouseEnter += new System.EventHandler(this.q_MouseEnter);
+            this.qPrice.MouseLeave += new System.EventHandler(this.q_MouseLeave);
+            // 
+            // qCost
+            // 
+            this.qCost.BackColor = System.Drawing.Color.Transparent;
+            this.qCost.Image = global::BS.Properties.Resources.question;
+            this.qCost.ImageRotate = 0F;
+            this.qCost.Location = new System.Drawing.Point(421, 230);
+            this.qCost.Margin = new System.Windows.Forms.Padding(3, 3, 3, 1);
+            this.qCost.Name = "qCost";
+            this.qCost.Size = new System.Drawing.Size(18, 18);
+            this.qCost.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.qCost.TabIndex = 25;
+            this.qCost.TabStop = false;
+            this.qCost.UseTransparentBackground = true;
+            this.qCost.MouseEnter += new System.EventHandler(this.q_MouseEnter);
+            this.qCost.MouseLeave += new System.EventHandler(this.q_MouseLeave);
+            // 
             // frmProductAdd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.qCost);
+            this.Controls.Add(this.qPrice);
             this.Controls.Add(this.btnBrowse);
             this.Controls.Add(this.pbImage);
             this.Controls.Add(this.txtPrice);
@@ -255,9 +293,13 @@
             this.Controls.SetChildIndex(this.txtPrice, 0);
             this.Controls.SetChildIndex(this.pbImage, 0);
             this.Controls.SetChildIndex(this.btnBrowse, 0);
+            this.Controls.SetChildIndex(this.qPrice, 0);
+            this.Controls.SetChildIndex(this.qCost, 0);
             this.paTop.ResumeLayout(false);
             this.paBottom.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbImage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.qPrice)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.qCost)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -273,5 +315,7 @@
         private Guna.UI2.WinForms.Guna2TextBox txtCost;
         private Guna.UI2.WinForms.Guna2PictureBox pbImage;
         private Guna.UI2.WinForms.Guna2Button btnBrowse;
+        private Guna.UI2.WinForms.Guna2PictureBox qPrice;
+        private Guna.UI2.WinForms.Guna2PictureBox qCost;
     }
 }

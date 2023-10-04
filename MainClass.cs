@@ -1,7 +1,4 @@
-﻿using DevExpress.ClipboardSource.SpreadsheetML;
-using DevExpress.Drawing;
-using DevExpress.Utils.MVVM;
-using Guna.UI2.WinForms;
+﻿using Guna.UI2.WinForms;
 using PhoneNumbers;
 using System;
 using System.Collections;
@@ -26,6 +23,8 @@ namespace BS
         public static SqlConnection con = new SqlConnection(conString);
         public static bool isLogined = false;
         public static string filePath;
+        public static string jusoString;
+        public static string oldjusoString;
 
         /// <summary>
         /// DataTable 가져오기
@@ -1187,7 +1186,7 @@ namespace BS
                             }
                         }
 
-                        // Telephone Number
+                        // Phone Number
                         if (c is Guna2TextBox)
                         {
                             Guna2TextBox t = c as Guna2TextBox;
@@ -1266,6 +1265,45 @@ namespace BS
 
                                     lbl.Location = new Point(x, y);
                                     lbl.Size = new Size(130, 20);
+                                    count++;
+                                }
+                            }
+                        }
+
+                        // Address
+                        if (c is Guna2TextBox)
+                        {
+                            Guna2TextBox t = c as Guna2TextBox;
+                            if (t.AutoRoundedCorners == true || t.BorderRadius > 0)
+                            {
+                                rad = (int)((t.BorderRadius / 2) + 0.5);
+                                x = int.Parse(c.Location.X.ToString()) + px + int.Parse(rad.ToString());
+                                y = int.Parse(c.Location.Y.ToString()) + int.Parse(c.Height.ToString()) + py;
+                            }
+                            else
+                            {
+                                x = int.Parse(c.Location.X.ToString()) + px;
+                                y = int.Parse(c.Location.Y.ToString()) + int.Parse(c.Height.ToString()) + py;
+                            }
+                            if (t.Tag.ToString() == "address")
+                            {
+                                if (t.Text != null || t.Text != "") { }
+                                else
+                                {
+                                    string cname = t.Tag.ToString() + "nlbl" + c.Name;
+                                    lbl.Name = cname;
+                                    lbl.Tag = "remove";
+                                    lbl.Text = "알 수 없는 주소 형식";
+                                    lbl.ForeColor = vColor;
+                                    lbl.Font = lblFont;
+                                    F.Controls.Add(lbl);
+
+                                    lbl.Location = new Point(x, y);
+
+                                    t.BorderColor = Color.Red;
+                                    t.FocusedState.BorderColor = Color.Red;
+                                    t.HoverState.BorderColor = Color.Red;
+
                                     count++;
                                 }
                             }

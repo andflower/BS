@@ -31,6 +31,9 @@ namespace BS.Model
             // bug
             this.btnDel.Location = new System.Drawing.Point(720, 20);
 
+            gHtmlToolTip.SetToolTip(this.qPrice, "숫자만 입력하세요.");
+            gHtmlToolTip.SetToolTip(this.qCost, "숫자만 입력하세요.");
+
             if (editID > 0)
             {
                 MainClass.AutoLoadForEdit(this, "TABLE_PRODUCT", editID);
@@ -115,6 +118,18 @@ namespace BS.Model
                 t.Focus();
             }
             catch (OverflowException) { }
+        }
+
+        private void q_MouseEnter(object sender, EventArgs e)
+        {
+            var t = sender as Guna2PictureBox;
+            t.Image = BS.Properties.Resources.question_b;
+        }
+
+        private void q_MouseLeave(object sender, EventArgs e)
+        {
+            var t = sender as Guna2PictureBox;
+            t.Image = BS.Properties.Resources.question;
         }
     }
 }

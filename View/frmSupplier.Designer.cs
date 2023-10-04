@@ -1,6 +1,6 @@
 ﻿namespace BS.View
 {
-    partial class frmProduct
+    partial class frmSupplier
     {
         /// <summary>
         /// Required designer variable.
@@ -49,7 +49,7 @@
             // 
             // lblContext
             // 
-            this.lblContext.Text = "상품 리스트";
+            this.lblContext.Text = "공급자 리스트";
             // 
             // txtSearch
             // 
@@ -86,7 +86,7 @@
             this.GunaDGVuser.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(28)))), ((int)(((byte)(36)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DimGray;
@@ -103,7 +103,7 @@
             this.dgvImage});
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(28)))), ((int)(((byte)(36)))));
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             dataGridViewCellStyle6.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.White;
@@ -118,7 +118,7 @@
             this.GunaDGVuser.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(28)))), ((int)(((byte)(36)))));
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(28)))), ((int)(((byte)(36)))));
             dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -129,7 +129,7 @@
             this.GunaDGVuser.RowTemplate.Height = 60;
             this.GunaDGVuser.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.GunaDGVuser.Size = new System.Drawing.Size(1100, 500);
-            this.GunaDGVuser.TabIndex = 3;
+            this.GunaDGVuser.TabIndex = 5;
             this.GunaDGVuser.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.White;
             this.GunaDGVuser.ThemeStyle.AlternatingRowsStyle.Font = null;
             this.GunaDGVuser.ThemeStyle.AlternatingRowsStyle.ForeColor = System.Drawing.Color.White;
@@ -203,18 +203,18 @@
             this.dgvImage.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvImage.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
-            // frmProduct
+            // frmSupplier
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(1720, 1020);
             this.Controls.Add(this.GunaDGVuser);
-            this.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold);
-            this.Name = "frmProduct";
-            this.Text = "frmProduct";
-            this.Load += new System.EventHandler(this.frmProduct_Load);
-            this.Controls.SetChildIndex(this.GunaDGVuser, 0);
+            this.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Name = "frmSupplier";
+            this.Text = "frmSupplier";
+            this.Load += new System.EventHandler(this.frmSupplier_Load);
             this.Controls.SetChildIndex(this.paTop, 0);
+            this.Controls.SetChildIndex(this.GunaDGVuser, 0);
             this.paTop.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.btnViewAdd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GunaDGVuser)).EndInit();
@@ -223,6 +223,7 @@
         }
 
         #endregion
+
         private AnimatedDataGridView GunaDGVuser;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvID;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvProductID;

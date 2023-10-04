@@ -152,6 +152,7 @@
             this.ClientSize = new System.Drawing.Size(830, 500);
             this.Controls.Add(this.paBottom);
             this.Controls.Add(this.paTop);
+            this.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Name = "SampleAdd";
             this.Text = "SampleAdd";
             this.paTop.ResumeLayout(false);

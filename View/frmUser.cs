@@ -27,7 +27,7 @@ namespace BS.View
               WHERE USER_ACCOUNT LIKE '%" + txtSearch.Text + "%'" +
             @"OR USER_NAME LIKE '%" + txtSearch.Text + "%'" +
             @"OR USER_PHONE LIKE '%" + txtSearch.Text + "%'" +
-            @"OR USER_EMAIL LIKE '%" + txtSearch.Text + "%'";
+            @"OR USER_EMAIL LIKE '%" + txtSearch.Text + "%' ORDER BY USER_ID";
 
             /*@"SELECT * FROM TABLE_USER
                   WHERE USER_NAME LIKE '%" + txtSearch.Text + "%'";*/
@@ -37,15 +37,10 @@ namespace BS.View
 
         public override void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            txtSearchFunc();
+            LoadData();
         }
 
         public override void txtSearch_IconRightClick(object sender, EventArgs e)
-        {
-            txtSearchFunc();
-        }
-
-        private void txtSearchFunc()
         {
             LoadData();
         }
