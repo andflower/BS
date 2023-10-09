@@ -281,7 +281,6 @@ namespace BS.webServer
 
             this.responseThreadList = new List<Thread>();
 
-
             this.listenThread = new Thread(new ThreadStart(Listen));
 
             this.listenThread.IsBackground = true;

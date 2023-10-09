@@ -36,7 +36,7 @@ namespace BS
             var localDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
             var jusorobinPath = Path.Combine(localDirectory, @"jusoro-2.0.0-win64-internet\jusoro\bin");
 
-            // 외부 명령 실행 (startup.cmd)
+            /*// 외부 명령 실행 (startup.cmd)
             ProcessStartInfo psi = new ProcessStartInfo
             {
                 FileName = "cmd.exe",
@@ -51,6 +51,14 @@ namespace BS
             Process process = Process.Start(psi);
             //string result = process.StandardOutput.ReadToEnd();
 
+            Trace.Listeners.Add(new ConsoleTraceListener());
+            Trace.Listeners.Add(new TextWriterTraceListener("Logs.txt"));
+            Trace.AutoFlush = true;
+
+            // Trace*() 메서드들 사용
+            Trace.TraceInformation("My Info");
+            Trace.TraceWarning("My Warning");
+            Trace.TraceError("My Error");*/
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -61,7 +69,7 @@ namespace BS
             }
 
             Cef.Shutdown();
-            process.Close();
+            //process.Close();
         }
     }
 }

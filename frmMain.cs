@@ -17,22 +17,6 @@ namespace BS
             initializeWebServer();
         }
 
-        // BlurBackground 적용 1) 멤버 변수
-        static frmMain _obj;
-
-        // BlurBackground 적용 2) 프로퍼티
-        public static frmMain Instance
-        {
-            get
-            {
-                if (_obj == null)
-                {
-                    _obj = new frmMain();
-                }
-                return _obj;
-            }
-        }
-
         private WebServer server = null;
 
         private void initializeWebServer()
@@ -61,6 +45,22 @@ namespace BS
         private void server_ActionRequested(object sender, ActionRequestedEventArgs e)
         {
             e.Server.WriteDefaultAction(e.Context);
+        }
+
+        // BlurBackground 적용 1) 멤버 변수
+        static frmMain _obj;
+
+        // BlurBackground 적용 2) 프로퍼티
+        public static frmMain Instance
+        {
+            get
+            {
+                if (_obj == null)
+                {
+                    _obj = new frmMain();
+                }
+                return _obj;
+            }
         }
 
         private void FrmMain_Load(object sender, EventArgs e)

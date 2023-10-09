@@ -56,7 +56,7 @@ namespace BS.Model
 
             tableName = "TABLE_" + this.Name.Replace("frm", "").Replace("Add", "").ToUpper();
             // bug
-            this.btnDel.Location = new System.Drawing.Point(500, 20);
+            this.btnDel.Location = new System.Drawing.Point(770, 20);
 
             ActiveControl = txtName;
 

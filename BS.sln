@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BS", "BS.csproj", "{95E54811-207F-48AE-A1B9-A5C0E6114D06}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JusoroService", "..\jusoroService\JusoroService.csproj", "{55B96D2E-0C6A-435F-BF68-903BEC14C584}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,18 @@ Global
 		{95E54811-207F-48AE-A1B9-A5C0E6114D06}.Release|x64.Build.0 = Release|x64
 		{95E54811-207F-48AE-A1B9-A5C0E6114D06}.Release|x86.ActiveCfg = Release|x86
 		{95E54811-207F-48AE-A1B9-A5C0E6114D06}.Release|x86.Build.0 = Release|x86
+		{55B96D2E-0C6A-435F-BF68-903BEC14C584}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55B96D2E-0C6A-435F-BF68-903BEC14C584}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55B96D2E-0C6A-435F-BF68-903BEC14C584}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{55B96D2E-0C6A-435F-BF68-903BEC14C584}.Debug|x64.Build.0 = Debug|Any CPU
+		{55B96D2E-0C6A-435F-BF68-903BEC14C584}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{55B96D2E-0C6A-435F-BF68-903BEC14C584}.Debug|x86.Build.0 = Debug|Any CPU
+		{55B96D2E-0C6A-435F-BF68-903BEC14C584}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55B96D2E-0C6A-435F-BF68-903BEC14C584}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55B96D2E-0C6A-435F-BF68-903BEC14C584}.Release|x64.ActiveCfg = Release|Any CPU
+		{55B96D2E-0C6A-435F-BF68-903BEC14C584}.Release|x64.Build.0 = Release|Any CPU
+		{55B96D2E-0C6A-435F-BF68-903BEC14C584}.Release|x86.ActiveCfg = Release|Any CPU
+		{55B96D2E-0C6A-435F-BF68-903BEC14C584}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
